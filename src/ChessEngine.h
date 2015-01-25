@@ -66,8 +66,8 @@ public:
   virtual std::string GetAuthorName() const = 0;
 
   //--------------------------------------------------------------------------
-  //! \brief Get options supported by the engine, and they're current values
-  //! \return A list of he engine's options and they're current values
+  //! \brief Get options supported by the engine, and their current values
+  //! \return A list of the engine's options and their current values
   //--------------------------------------------------------------------------
   virtual std::list<EngineOption> GetOptions() const = 0;
 
