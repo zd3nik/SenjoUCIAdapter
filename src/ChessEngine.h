@@ -66,8 +66,8 @@ public:
   virtual std::string GetAuthorName() const = 0;
 
   //--------------------------------------------------------------------------
-  //! \brief Get options supported by the engine, and they're current values
-  //! \return A list of he engine's options and they're current values
+  //! \brief Get options supported by the engine, and their current values
+  //! \return A list of the engine's options and their current values
   //--------------------------------------------------------------------------
   virtual std::list<EngineOption> GetOptions() const = 0;
 
@@ -174,12 +174,6 @@ public:
   //! \return true To use the built-in timer thread
   //--------------------------------------------------------------------------
   virtual bool UseTimer() const { return true; }
-
-  //--------------------------------------------------------------------------
-  //! \brief How long should the timer thread sleep between checking state?
-  //! \return Number of milliseconds to sleep between state checks
-  //--------------------------------------------------------------------------
-  virtual unsigned int TimerSleepInterval() const { return 200; }
 
   //--------------------------------------------------------------------------
   //! \brief How long should the timer thread wait between outputs?
@@ -308,6 +302,17 @@ public:
   //--------------------------------------------------------------------------
   uint64_t TimeoutOccurred() const { return (_stop & StopReason::Timeout); }
 
+  //--------------------------------------------------------------------------
+  //! \brief Stop searching and perform engine exit
+  //--------------------------------------------------------------------------
+  virtual void Quit() {
+    _quit = true;
+    _stop = FullStop;
+    if (UseTimer()) {
+      timerThread.Join();
+    }
+  }
+
 protected:
   //--------------------------------------------------------------------------
   //! \brief Do performance test on the current position
@@ -346,6 +351,7 @@ protected:
 
   static bool     _debug;
   static bool     _searching;
+  static bool     _quit;
   static int      _stop;
   static uint64_t _startTime;
   static uint64_t _stopTime;

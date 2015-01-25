@@ -31,6 +31,7 @@ namespace senjo
 //----------------------------------------------------------------------------
 bool        ChessEngine::_debug = false;
 bool        ChessEngine::_searching = false;
+bool        ChessEngine::_quit = false;
 int         ChessEngine::_stop = 0;
 uint64_t    ChessEngine::_startTime = 0;
 uint64_t    ChessEngine::_stopTime = 0;
@@ -81,10 +82,6 @@ std::string ChessEngine::Go(const int depth,
       MyGo(depth, movestogo, movetime, wtime, winc, btime, binc, ponder);
 
   _searching = false;
-  if (StopRequested() && UseTimer()) {
-    timerThread.Join();
-  }
-
   return bestmove;
 }
 
@@ -109,7 +106,6 @@ void ChessEngine::Timer(void* data)
 #endif
 
     const unsigned int outputInterval = engine->TimerOutputInterval();
-    const unsigned int sleepInterval = engine->TimerSleepInterval();
 
     char     move[8];
     int      depth = 0;
@@ -119,11 +115,11 @@ void ChessEngine::Timer(void* data)
     uint64_t nodes = 0;
     uint64_t qnodes = 0;
 
-    while (!engine->StopRequested()) {
-      if (engine->IsSearching() && !engine->TimeoutOccurred()) {
-        const uint64_t now = Now();
-        const uint64_t end = engine->GetStopTime();
+    while (!_quit) {
+      const uint64_t now = Now();
+      const uint64_t end = engine->GetStopTime();
 
+      if (engine->IsSearching() && !engine->TimeoutOccurred()) {
         if (end && ((now + 100) >= end)) {
           engine->Stop(StopReason::Timeout);
         }
@@ -143,17 +139,11 @@ void ChessEngine::Timer(void* data)
                 << " currmove " << move;
           }
         }
-
-        const uint64_t tmout = (end - now - 100);
-        if (end && (tmout < outputInterval)) {
-          if (!MillisecondSleep(static_cast<unsigned int>(tmout))) {
-            break;
-          }
-          continue;
-        }
       }
 
-      if (!MillisecondSleep(sleepInterval)) {
+      const uint64_t tmout = (end - now - 100);
+      const uint64_t msecs = std::min<uint64_t>(outputInterval, tmout);
+      if (!MillisecondSleep(static_cast<unsigned int>(msecs))) {
         break;
       }
     }

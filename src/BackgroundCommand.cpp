@@ -83,9 +83,6 @@ void BackgroundCommand::Run(void* data)
   }
 
   if (cmd) {
-    if (cmd->engine) {
-      cmd->engine->Stop(ChessEngine::FullStop);
-    }
     delete cmd;
     cmd = NULL;
   }

@@ -93,12 +93,12 @@ bool UCIAdapter::Start(ChessEngine& chessEngine)
 //----------------------------------------------------------------------------
 bool UCIAdapter::DoCommand(const char* command)
 {
-  if (!engine || !command) {
-    StopCommand();
+  if (!engine) {
     return false;
   }
 
-  if (!*command) {
+  if (!command || !*command) {
+    QuitCommand(command);
     return true;
   }
 
@@ -167,7 +167,6 @@ bool UCIAdapter::DoCommand(const char* command)
   else if (ParamMatch(token::Exit, command) ||
            ParamMatch(token::Quit, command))
   {
-    StopCommand();
     if (QuitCommand(command)) {
       return false;
     }
@@ -407,20 +406,6 @@ void UCIAdapter::MoveCommand(const char* params)
 }
 
 //----------------------------------------------------------------------------
-//! \brief Do the "exit" command (not a UCI command)
-//! \return true if exit requested, otherwise false
-//----------------------------------------------------------------------------
-bool UCIAdapter::ExitCommand(const char *params)
-{
-  if (ParamMatch(token::Help, params)) {
-    Output() << "usage: " << token::Exit;
-    Output() << "Stop engine and terminate program.";
-    return false;
-  }
-  return true;
-}
-
-//----------------------------------------------------------------------------
 //! \brief Do the UCI "quit" command
 //! UCI specification:
 //!   Quit the program as soon as possible.
@@ -433,6 +418,8 @@ bool UCIAdapter::QuitCommand(const char *params)
     Output() << "Stop engine and terminate program.";
     return false;
   }
+  engine->Quit();
+  thread.Join();
   return true;
 }
 
