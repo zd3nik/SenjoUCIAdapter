@@ -271,8 +271,6 @@ public:
 
   //--------------------------------------------------------------------------
   //! \brief Get the millisecond timestamp of when Go() was started
-  //! Simply add _startTime = Now(); to beginning of your Go() implementation.
-  //! Also add
   //! \return 0 if not searching
   //--------------------------------------------------------------------------
   uint64_t GetStartTime() const { return _startTime; }
@@ -328,7 +326,6 @@ protected:
 
   //--------------------------------------------------------------------------
   //! \brief Execute search on current position to find best move
-  //! implement protected MyGo() method.
   //! \param[in] depth Maximum number of half-moves (plies) to search
   //! \param[in] movestogo Number of moves remaining until next time control
   //! \param[in] movetime Maximum milliseconds to spend on this move
