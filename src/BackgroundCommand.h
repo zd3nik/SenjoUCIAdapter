@@ -42,6 +42,11 @@ public:
   BackgroundCommand(ChessEngine* engine) : engine(engine) { }
 
   //--------------------------------------------------------------------------
+  //! \brief Destructor
+  //--------------------------------------------------------------------------
+  virtual ~BackgroundCommand() { }
+
+  //--------------------------------------------------------------------------
   //! \brief Parse command parameters and execute on the given thread
   //! \param[in] params The command parameters
   //! \param[in] thread The thread to execute the command on
