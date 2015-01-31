@@ -156,6 +156,10 @@ void ChessEngine::Timer(void* data)
     std::cerr << "info string ChessEngine::Timer() ERROR: unknown exception"
               << std::endl;
   }
+
+  if (_debug) {
+    Output() << "ChessEngine::Timer thread exiting";
+  }
 }
 
 } // namespace senjo

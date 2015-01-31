@@ -73,9 +73,7 @@ private:
   void NewCommand(const char* params);
   void OptsCommand(const char* params);
   void PerftCommand(const char* params);
-  void PonderHitCommand(const char* params);
   void PrintCommand(const char* params);
-  void RegisterCommand(const char* params);
   void TestCommand(const char* params);
 
   // UCI commands
@@ -83,7 +81,9 @@ private:
   void DebugCommand(const char* params);
   void GoCommand(const char* params);
   void IsReadyCommand(const char* params);
+  void PonderHitCommand(const char* params);
   void PositionCommand(const char* params);
+  void RegisterCommand(const char* params);
   void SetOptionCommand(const char* params);
   void StopCommand(const char* params = "");
   void UCICommand(const char* params);

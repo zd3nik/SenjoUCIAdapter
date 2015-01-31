@@ -101,11 +101,13 @@ public:
     if (sqr == H8) {
       sqr = None;
     }
-    else if ((sqr % 16) == 7) {
-      sqr += 9;
-    }
     else if (IsValid()) {
-      sqr++;
+      if ((sqr % 16) == 7) {
+        sqr += 9;
+      }
+      else {
+        sqr++;
+      }
     }
     return *this;
   }
@@ -113,11 +115,13 @@ public:
     if (sqr == A1) {
       sqr = None;
     }
-    else if ((sqr % 16) == 0) {
-      sqr -= 9;
-    }
     else if (IsValid()) {
-      sqr--;
+      if ((sqr % 16) == 0) {
+        sqr -= 9;
+      }
+      else {
+        sqr--;
+      }
     }
     return *this;
   }
