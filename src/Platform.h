@@ -31,23 +31,19 @@
 
 #ifdef WIN32
 #include <Windows.h>
-#include <mmintrin.h>
-#pragma intrinsic(_BitScanForward64)
-#pragma intrinsic(_BitScanReverse64)
-#pragma warning(disable:4146)
 #pragma warning(disable:4800)
 #pragma warning(disable:4806)
 #pragma warning(disable:4996)
 #define PRId64 "lld"
 #define PRIu64 "llu"
 #define snprintf _snprintf
-#else // ifdef WIN32
-#include <unistd.h>
+#else // not WIN32
 #include <inttypes.h>
 #include <pthread.h>
 #include <stdio.h>
 #include <string.h>
 #include <sys/time.h>
+#include <unistd.h>
 #define stricmp strcasecmp
 #endif
 
@@ -370,7 +366,7 @@ static inline bool StringParam(const std::string& name, std::string& value,
 //----------------------------------------------------------------------------
 //! \brief Does 'name number' pattern exist at current position in a string?
 //! \param[in] name The parameter name to check for
-//! \param[out] value Set to number after \p name if current word matches \p name
+//! \param[out] value Set to value after \p name if current word matches \p name
 //! \param[in,out] params The current word in string of parameters
 //! \param[out] invalid Set to true if \p name is not followed by a number
 //! \return true if current word in \p params matches \p name and has value
@@ -400,6 +396,13 @@ static inline bool NumberParam(const std::string& name, Number& value,
   return true;
 }
 
+//----------------------------------------------------------------------------
+//! \brief Consume the value at current position in a string
+//! \param[out] value Populated with the value in \p params
+//! \param[in,out] params The current position in a string of parameter values
+//! \param[int] next THe next expected parameter name
+//! \return true If a non-empty value was assigned to \p value
+//----------------------------------------------------------------------------
 static inline bool ParamValue(std::string& value, const char*& params,
                               const std::string& next)
 {
