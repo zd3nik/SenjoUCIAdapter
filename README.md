@@ -10,7 +10,7 @@ Description
 
 Senjo is a UCI adapter for C++ chess engines.  It handles the interaction between your chess engine and any UCI compliant user interface.  All you have to do is implement a ChessEngine class that does the "thinking" parts, Senjo will deal with the rest.
 
-I started out with the goal of writing a complete chess GUI and this adapter was a component of that project.  But given the plethora of UCI compatible GUIs available I scaled the project down to being nothing more than the reusable UCI adapter.  That's why the adapter is named Senjo (a Japanese word that Google translates to "battlefield").
+I started out with the goal of writing a complete chess GUI and this adapter was a component of that project.  But given the plethora of UCI compatible GUIs available I scaled the project down to being nothing more than the reusable UCI adapter.  Senjo (a Japanese word that Google translates to "battlefield") is the name I was going to use for the chess GUI.
 
 The Senjo UCI adapter also comes with a few extra commands that are not part of the UCI specification.  Execute the 'help' command while running your Senjo executable in a text console to get a complete list.  Here are some key examples:
 
