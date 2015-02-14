@@ -93,7 +93,7 @@ public:
 
   //--------------------------------------------------------------------------
   //! \brief Is this thread running a function?
-  //! \return true If a function is running a function
+  //! \return true If this thread is running a function
   //--------------------------------------------------------------------------
   bool Active() const;
 
