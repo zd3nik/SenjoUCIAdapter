@@ -282,6 +282,11 @@ public:
   uint64_t GetStopTime() const { return _stopTime; }
 
   //--------------------------------------------------------------------------
+  //! \brief Clear all stop flags
+  //--------------------------------------------------------------------------
+  void ClearStopFlags() { _stop = 0; }
+
+  //--------------------------------------------------------------------------
   //! \brief Tell the engine to stop searching
   //! Exit Perft()/Go() methods as quickly as possible.
   //! \param[in] reason The reason the search is being stopped

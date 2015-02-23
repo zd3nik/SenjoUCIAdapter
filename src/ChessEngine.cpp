@@ -41,7 +41,7 @@ const char* ChessEngine::_STARTPOS =
 //----------------------------------------------------------------------------
 uint64_t ChessEngine::Perft(const int depth)
 {
-  _stop = 0;
+  _stop &= ~StopReason::Timeout;
   _searching = false;
   _startTime = Now();
   _stopTime = 0;
@@ -56,7 +56,7 @@ std::string ChessEngine::Go(const int depth,
                             const uint64_t btime, const uint64_t binc,
                             std::string* ponder)
 {
-  _stop = 0;
+  _stop &= ~StopReason::Timeout;
   _searching = true;
   _startTime = Now();
 
@@ -119,11 +119,13 @@ void ChessEngine::Timer(void* data)
       const uint64_t now = Now();
       const uint64_t end = engine->GetStopTime();
 
-      if (engine->IsSearching() && !engine->TimeoutOccurred()) {
+      if (engine->IsSearching()) {
         if (end && ((now + 100) >= end)) {
           engine->Stop(StopReason::Timeout);
         }
-        else if (now >= (Output::LastOutput() + outputInterval)) {
+        else if (!engine->TimeoutOccurred() &&
+                 (now >= (Output::LastOutput() + outputInterval)))
+        {
           engine->GetStats(&depth, &seldepth, &nodes, &qnodes, &msecs,
                            &movenum, move, sizeof(move));
 
@@ -142,7 +144,7 @@ void ChessEngine::Timer(void* data)
       }
 
       const uint64_t tmout = (end - now - 100);
-      const uint64_t msecs = std::min<uint64_t>(outputInterval, tmout);
+      const uint64_t msecs = std::min<uint64_t>(100, tmout);
       if (!MillisecondSleep(static_cast<unsigned int>(msecs))) {
         break;
       }

@@ -225,6 +225,8 @@ void GoCommandHandle::Execute()
     return;
   }
 
+  engine->ClearStopFlags();
+
   std::string ponder; // NOTE: shadows this->ponder
   std::string bestmove =
       engine->Go(depth, movestogo, movetime, wtime, winc, btime, binc, &ponder);
@@ -307,6 +309,8 @@ void PerftCommandHandle::Execute()
       Output() << "Cannot open '" << fileName << "': " << strerror(errno);
       return;
     }
+
+    engine->ClearStopFlags();
 
     const uint64_t start = Now();
     uint64_t leafs = 0;
@@ -520,6 +524,8 @@ void TestCommandHandle::Execute()
       Output() << "Cannot open '" << fileName << "': " << strerror(errno);
       return;
     }
+
+    engine->ClearStopFlags();
 
     while (fgets(fen, sizeof(fen), fp)) {
       line++;
