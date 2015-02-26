@@ -64,7 +64,7 @@ std::string ChessEngine::Go(const int depth,
   _stopTime = (movetime ? (_startTime + movetime) : 0);
   const uint64_t timeRemaining = (WhiteToMove() ? wtime : btime);
   if (timeRemaining) {
-    const int moves = (movestogo ? movestogo : 15);
+    const int moves = (movestogo ? movestogo : MovesToGo());
     const uint64_t timePerMove = (timeRemaining / moves);
     const uint64_t endTime = (_startTime + timePerMove);
     if (!_stopTime || (endTime < _stopTime)) {

@@ -170,6 +170,15 @@ public:
                         const size_t movelen = 0) const = 0;
 
   //--------------------------------------------------------------------------
+  //! \brief Get a guess of how many moves remaining until game end
+  //! This is used in the Go() method when the movestogo value is not given
+  //! by the UCI caller.  It is generally not a good idea to return anything
+  //! less than 10 or over 40 if the time control or move count is unknown.
+  //! \return A guess of how many moves remaining until game end
+  //--------------------------------------------------------------------------
+  virtual int MovesToGo() const { return 20; }
+
+  //--------------------------------------------------------------------------
   //! \brief Use the built-in timer thread for timeouts and periodic updates?
   //! \return true To use the built-in timer thread
   //--------------------------------------------------------------------------
