@@ -298,6 +298,8 @@ void PerftCommandHandle::Execute()
     return;
   }
 
+  engine->ClearStopFlags();
+
   if (fileName.empty()) {
     engine->Perft(maxDepth);
     return;
@@ -309,8 +311,6 @@ void PerftCommandHandle::Execute()
       Output() << "Cannot open '" << fileName << "': " << strerror(errno);
       return;
     }
-
-    engine->ClearStopFlags();
 
     const uint64_t start = Now();
     uint64_t leafs = 0;
