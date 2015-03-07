@@ -3,7 +3,7 @@ Senjo
 
 Universal Chess Interface (UCI) adapter by Shawn Chidester <zd3nik@gmail.com>.
 
-Just write your chess engine and let Senjo's UCIAdapter deal with the UCI protocol.
+Just write your chess engine and let Senjo's UCIAdapter deal with the UCI protocol.  See [Clubfoot](https://github.com/zd3nik/Clubfoot) for an example chess engine that uses Senjo.
 
 Description
 -----------
