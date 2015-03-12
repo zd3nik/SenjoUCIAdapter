@@ -209,10 +209,6 @@ bool GoCommandHandle::Parse(const char* params)
     winc      = 0;
     wtime     = 0;
   }
-  else {
-    // convert movetime to milliseconds
-    movetime *= 1000;
-  }
 
   return true;
 }

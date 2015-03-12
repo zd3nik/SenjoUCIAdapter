@@ -125,7 +125,7 @@ public:
   std::string Usage() const {
     return "go [infinite] [ponder] [depth <x>] [nodes <x>] "
         "[wtime <x>] [btime <x>] [winc <x>] [binc <x>] "
-        "[movetime <secs>] [movestogo <x>] [searchmoves <movelist>]";
+        "[movetime <msecs>] [movestogo <x>] [searchmoves <movelist>]";
   }
   std::string Description() const {
     return "Find the best move for the current position.";
