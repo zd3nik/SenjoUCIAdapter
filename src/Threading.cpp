@@ -108,7 +108,8 @@ bool Thread::Start(void (*function)(void*), void* param)
   }
   threadFunction = function;
   threadParam = param;
-  thread = CreateThread(NULL, 0, RunThreadFunction, this, 0, &threadID);
+  thread = CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)RunThreadFunction,
+                        (LPVOID)this, 0, &threadID);
   if (!thread) {
     std::cerr << "Unable to create thread: error code " << GetLastError()
               << std::endl;
