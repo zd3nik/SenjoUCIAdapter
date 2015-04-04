@@ -93,12 +93,11 @@ bool UCIAdapter::Start(ChessEngine& chessEngine)
 //----------------------------------------------------------------------------
 bool UCIAdapter::DoCommand(const char* command)
 {
-  if (!engine) {
+  if (!engine || !command) {
     return false;
   }
 
-  if (!command || !*command) {
-    QuitCommand(command);
+  if (!*command) {
     return true;
   }
 
