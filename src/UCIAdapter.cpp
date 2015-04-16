@@ -527,6 +527,11 @@ void UCIAdapter::UCICommand(const char* params)
     if (opt->GetMaxValue() < INT64_MAX) {
       out << " max " << opt->GetMaxValue();
     }
+    const std::set<std::string>& comboValues = opt->GetComboValues();
+    std::set<std::string>::const_iterator val;
+    for (val = comboValues.begin(); val != comboValues.end(); ++val) {
+      out << " var " << *val;
+    }
   }
 
   Output(Output::NoPrefix) << "uciok";
