@@ -262,12 +262,8 @@ void UCIAdapter::NewCommand(const char* params)
     return;
   }
 
-  lastPosition.clear();
-  engine->ClearSearchData();
+  UCINewGameCommand("");
 
-  if (!engine->IsInitialized()) {
-    engine->Initialize();
-  }
   if (!params || !*params ||
       ParamMatch(token::StartPos, params) ||
       ParamMatch(token::Moves, params))
@@ -388,10 +384,10 @@ void UCIAdapter::TestCommand(const char* params)
 //----------------------------------------------------------------------------
 void UCIAdapter::MoveCommand(const char* params)
 {
-  lastPosition.clear();
   if (!engine->IsInitialized()) {
     engine->Initialize();
   }
+  lastPosition.clear();
   while (params && *NextWord(params)) {
     const char* move = params;
     if (!IsMove(move) || !(params = engine->MakeMove(params))) {
@@ -600,6 +596,11 @@ void UCIAdapter::PositionCommand(const char* params)
     return;
   }
 
+  if (!engine->IsInitialized()) {
+    engine->Initialize();
+    lastPosition.clear();
+  }
+
   const char* position = params;
   if (lastPosition.size() &&
       !strncmp(params, lastPosition.c_str(), lastPosition.size()))
@@ -619,6 +620,7 @@ void UCIAdapter::PositionCommand(const char* params)
   }
 
   // simply consume "moves" token if present
+  NextWord(params);
   ParamMatch(token::Moves, params);
 
   // apply moves (if any)
