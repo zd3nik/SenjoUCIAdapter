@@ -315,6 +315,16 @@ public:
   uint64_t TimeoutOccurred() const { return (_stop & StopReason::Timeout); }
 
   //--------------------------------------------------------------------------
+  //! \brief Reset statistical counter totals
+  //--------------------------------------------------------------------------
+  virtual void ResetStatsTotals() { }
+
+  //--------------------------------------------------------------------------
+  //! \brief Output stats collected since last ResetStatsTotals call
+  //--------------------------------------------------------------------------
+  virtual void ShowStatsTotals() const { }
+
+  //--------------------------------------------------------------------------
   //! \brief Stop searching and perform engine exit
   //--------------------------------------------------------------------------
   virtual void Quit() {

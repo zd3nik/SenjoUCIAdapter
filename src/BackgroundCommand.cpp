@@ -522,6 +522,7 @@ void TestCommandHandle::Execute()
     }
 
     engine->ClearStopFlags();
+    engine->ResetStatsTotals();
 
     while (fgets(fen, sizeof(fen), fp)) {
       line++;
@@ -640,21 +641,23 @@ void TestCommandHandle::Execute()
       }
     }
 
-    Output() << "--- Complete " << Rate((totalNodes / 1000), totalTime)
-             << " KNodes/sec";
-    Output() << "--- Nodes    " << totalNodes;
-    Output() << "--- QNodes   " << totalQnodes << " ("
-             << Percent(totalQnodes, totalNodes) << "%)";
-    Output() << "--- Time     " << totalTime << " ("
-             << Average(totalTime, static_cast<uint64_t>(tested)) << "/pos)";
-    Output() << "--- Depth    " << minSearchDepth << ", "
-             << static_cast<int>(Average(totalDepth, tested)) << ", "
-             << maxSearchDepth;
-    Output() << "--- SelDepth " << minSeldepth << ", "
-             << static_cast<int>(Average(totalSeldepth, tested)) << ", "
-             << maxSeldepth;
-    Output() << "--- Passed   " << passed << '/' << tested << " ("
+    Output() << "--- Completed " << tested << " test positions";
+    Output() << "--- Passed    " << passed << " passed ("
              << Percent(passed, tested) << "%)";
+    Output() << "--- Time      " << totalTime << " ("
+             << Average(totalTime, static_cast<uint64_t>(tested)) << " avg)";
+    Output() << "--- Nodes     " << totalNodes << ", "
+             << Rate((totalNodes / 1000), totalTime) << " KNodes/sec";
+    Output() << "--- QNodes    " << totalQnodes << " ("
+             << Percent(totalQnodes, totalNodes) << "%)";
+    Output() << "--- Depth     " << minSearchDepth << " min, "
+             << static_cast<int>(Average(totalDepth, tested)) << " avg, "
+             << maxSearchDepth << " max";
+    Output() << "--- SelDepth  " << minSeldepth << " min, "
+             << static_cast<int>(Average(totalSeldepth, tested)) << " avg, "
+             << maxSeldepth << " max";
+
+    engine->ShowStatsTotals();
   }
   catch (const std::exception& e) {
     Output() << "ERROR: " << e.what();
