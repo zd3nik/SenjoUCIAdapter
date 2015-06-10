@@ -506,9 +506,23 @@ void UCIAdapter::UCICommand(const char* params)
   }
 
   std::list<EngineOption> opts = engine->GetOptions();
-  Output(Output::NoPrefix) << "id " << engine->GetEngineName()
-                           << ' ' << engine->GetEngineVersion()
-                           << ' ' << engine->GetAuthorName();
+  Output(Output::NoPrefix) << "id name " << engine->GetEngineName()
+                           << ' ' << engine->GetEngineVersion();
+
+  const std::string author = engine->GetAuthorName();
+  if (author.size()) {
+    Output(Output::NoPrefix) << "id author " << author;
+  }
+
+  const std::string email = engine->GetEmailAddress();
+  if (email.size()) {
+    Output(Output::NoPrefix) << "id email " << email;
+  }
+
+  const std::string country = engine->GetCountryName();
+  if (country.size()) {
+    Output(Output::NoPrefix) << "id country " << country;
+  }
 
   std::list<EngineOption>::const_iterator opt;
   for (opt = opts.begin(); opt != opts.end(); ++opt) {

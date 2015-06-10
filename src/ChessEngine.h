@@ -60,10 +60,24 @@ public:
   virtual std::string GetEngineVersion() const = 0;
 
   //--------------------------------------------------------------------------
-  //! \brief Get the engine quthor name (e.g. "John Doe <jdoe@nowhere.com>")
-  //! \return The engine author name
+  //! \brief Get the engine author name(s)
+  //! \return The engine author name(s)
   //--------------------------------------------------------------------------
   virtual std::string GetAuthorName() const = 0;
+
+  //--------------------------------------------------------------------------
+  //! \brief Get email address(es) for use with this engine
+  //! Return an empty string if you don't wish to report an email address.
+  //! \return An email address(es) for use with this engine
+  //--------------------------------------------------------------------------
+  virtual std::string GetEmailAddress() const { return std::string(); }
+
+  //--------------------------------------------------------------------------
+  //! \brief Get the name of the country this engine originates from
+  //! Return an empty string if you don't wish to report a country
+  //! \return The name of the country this engine originates from
+  //--------------------------------------------------------------------------
+  virtual std::string GetCountryName() const { return std::string(); }
 
   //--------------------------------------------------------------------------
   //! \brief Get options supported by the engine, and their current values
