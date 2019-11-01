@@ -1,5 +1,5 @@
-//----------------------------------------------------------------------------
-// Copyright (c) 2015 Shawn Chidester <zd3nik@gmail.com>
+//-----------------------------------------------------------------------------
+// Copyright (c) 2015-2019 Shawn Chidester <zd3nik@gmail.com>
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -18,15 +18,12 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
-//----------------------------------------------------------------------------
+//-----------------------------------------------------------------------------
 
 #include "EngineOption.h"
 
 namespace senjo {
 
-//----------------------------------------------------------------------------
-// static variables
-//----------------------------------------------------------------------------
 static const char* OPT_BUTTON_NAME  = "button";
 static const char* OPT_CHECK_NAME   = "check";
 static const char* OPT_COMBO_NAME   = "combo";
@@ -34,30 +31,28 @@ static const char* OPT_SPIN_NAME    = "spin";
 static const char* OPT_STRING_NAME  = "string";
 static const char* OPT_UNKNOWN_NAME = "unknown";
 
-//----------------------------------------------------------------------------
-EngineOption::OptionType EngineOption::ToOptionType(const std::string& name)
-{
-  if (!stricmp(name.c_str(), OPT_BUTTON_NAME)) {
+//-----------------------------------------------------------------------------
+EngineOption::OptionType EngineOption::ToOptionType(const std::string& name) {
+  if (!iEqual(name, OPT_BUTTON_NAME)) {
     return OptionType::Button;
   }
-  if (!stricmp(name.c_str(), OPT_CHECK_NAME)) {
+  if (!iEqual(name, OPT_CHECK_NAME)) {
     return OptionType::Checkbox;
   }
-  if (!stricmp(name.c_str(), OPT_COMBO_NAME)) {
+  if (!iEqual(name, OPT_COMBO_NAME)) {
     return OptionType::ComboBox;
   }
-  if (!stricmp(name.c_str(), OPT_SPIN_NAME)) {
+  if (!iEqual(name, OPT_SPIN_NAME)) {
     return OptionType::Spin;
   }
-  if (!stricmp(name.c_str(), OPT_STRING_NAME)) {
+  if (!iEqual(name, OPT_STRING_NAME)) {
     return OptionType::String;
   }
   return OptionType::Unknown;
 }
 
-//----------------------------------------------------------------------------
-std::string EngineOption::GetTypeName(const EngineOption::OptionType type)
-{
+//-----------------------------------------------------------------------------
+std::string EngineOption::GetTypeName(const EngineOption::OptionType type) {
   switch (type) {
   case OptionType::Button:   return OPT_BUTTON_NAME;
   case OptionType::Checkbox: return OPT_CHECK_NAME;
@@ -70,7 +65,7 @@ std::string EngineOption::GetTypeName(const EngineOption::OptionType type)
   return OPT_UNKNOWN_NAME;
 }
 
-//----------------------------------------------------------------------------
+//-----------------------------------------------------------------------------
 EngineOption::EngineOption(const std::string& optName,
                            const std::string& defaultValue,
                            const OptionType optType,
@@ -83,45 +78,35 @@ EngineOption::EngineOption(const std::string& optName,
     defaultValue(defaultValue),
     minValue(minValue),
     maxValue(maxValue),
-    comboValues(comboValues)
-{
+    comboValues(comboValues) {}
+
+//-----------------------------------------------------------------------------
+int64_t EngineOption::GetIntValue() const {
+  return toNumber<int64_t>(optValue);
 }
 
-//----------------------------------------------------------------------------
-int64_t EngineOption::GetIntValue() const
-{
-  int64_t value = 0;
-  sscanf(optValue.c_str(), "%" PRId64, &value);
-  return value;
+//-----------------------------------------------------------------------------
+int64_t EngineOption::GetDefaultIntValue() const {
+  return toNumber<int64_t>(defaultValue);
 }
 
-//----------------------------------------------------------------------------
-int64_t EngineOption::GetDefaultIntValue() const
-{
-  int64_t value = 0;
-  sscanf(defaultValue.c_str(), "%" PRId64, &value);
-  return value;
-}
-
-//----------------------------------------------------------------------------
-std::set<int64_t> EngineOption::GetIntComboValues() const
-{
+//-----------------------------------------------------------------------------
+std::set<int64_t> EngineOption::GetIntComboValues() const {
   std::set<int64_t> values;
-  std::set<std::string>::const_iterator it;
-  for (it = comboValues.begin(); it != comboValues.end(); ++it) {
-    int64_t value = 0;
-    sscanf(it->c_str(), "%" PRId64, &value);
-    values.insert(value);
+  for (auto value : comboValues) {
+    int64_t n = toNumber<int64_t>(value, -1);
+    if (n >= 0) {
+      values.insert(n);
+    }
   }
   return values;
 }
 
-//----------------------------------------------------------------------------
+//-----------------------------------------------------------------------------
 bool EngineOption::SetValue(const std::string& value) {
-  int64_t intval = 0;
   switch (optType) {
   case OptionType::Checkbox:
-    if ((value != "true") && (value != "false")) {
+    if (!iEqual(value, "true") && !iEqual(value, "false")) {
       return false;
     }
     break;
@@ -130,14 +115,13 @@ bool EngineOption::SetValue(const std::string& value) {
       return false;
     }
     break;
-  case OptionType::Spin:
-    if ((sscanf(value.c_str(), "%" PRId64, &intval) != 1) ||
-        (intval < minValue) ||
-        (intval > maxValue))
-    {
+  case OptionType::Spin: {
+    int64_t intval = toNumber<int64_t>(value, (minValue - 1));
+    if ((intval < minValue) || (intval > maxValue)) {
       return false;
     }
     break;
+  }
   case OptionType::String:
     break;
   default:
@@ -147,31 +131,21 @@ bool EngineOption::SetValue(const std::string& value) {
   return true;
 }
 
-//----------------------------------------------------------------------------
-bool EngineOption::SetValue(const int64_t value)
-{
-  char sbuf[32];
-  snprintf(sbuf, sizeof(sbuf), "%" PRId64, value);
-  return SetValue(std::string(sbuf));
+//-----------------------------------------------------------------------------
+bool EngineOption::SetValue(const int64_t value) {
+  return SetValue(std::to_string(value));
 }
 
-//----------------------------------------------------------------------------
-void EngineOption::SetDefaultValue(const int64_t value)
-{
-  char sbuf[32];
-  snprintf(sbuf, sizeof(sbuf), "%" PRId64, value);
-  SetDefaultValue(std::string(sbuf));
+//-----------------------------------------------------------------------------
+void EngineOption::SetDefaultValue(const int64_t value) {
+  SetDefaultValue(std::to_string(value));
 }
 
-//----------------------------------------------------------------------------
-void EngineOption::SetComboValues(const std::set<int64_t>& values)
-{
-  char sbuf[32];
+//-----------------------------------------------------------------------------
+void EngineOption::SetComboValues(const std::set<int64_t>& values) {
   comboValues.clear();
-  std::set<int64_t>::const_iterator it;
-  for (it = values.begin(); it != values.end(); ++it) {
-    snprintf(sbuf, sizeof(sbuf), "%" PRId64, *it);
-    comboValues.insert(std::string(sbuf));
+  for (auto value : values) {
+    comboValues.insert(std::to_string(value));
   }
 }
 

@@ -1,5 +1,5 @@
-//----------------------------------------------------------------------------
-// Copyright (c) 2015 Shawn Chidester <zd3nik@gmail.com>
+//-----------------------------------------------------------------------------
+// Copyright (c) 2015-2019 Shawn Chidester <zd3nik@gmail.com>
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -18,17 +18,18 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
-//----------------------------------------------------------------------------
+//-----------------------------------------------------------------------------
 
-#ifndef SENJO_OUTPUT_H
-#define SENJO_OUTPUT_H
+#ifndef BB_OUTPUT_H
+#define BB_OUTPUT_H
 
-#include "Threading.h"
+#include "Platform.h"
+#include <iostream>
+#include <mutex>
 
-namespace senjo
-{
+namespace senjo {
 
-//----------------------------------------------------------------------------
+//-----------------------------------------------------------------------------
 //! \brief Thread safe stdout stream
 //! Instantiating this class will obtain a lock on a mtuex guarding stdout.
 //! The stdout mutex is released when the instantiated object is destroyed.
@@ -86,9 +87,8 @@ namespace senjo
 //! Notice it is necessary to explicitly prefix all but the first line with
 //! "info string ".  If you know what you're doing concerning the UCI protocol
 //! you can omit "info string " where appropriate.
-//----------------------------------------------------------------------------
-class Output
-{
+//-----------------------------------------------------------------------------
+class Output {
 public:
   enum OutputPrefix {
     NoPrefix,   ///< Don't prefix output with "info string "
@@ -111,7 +111,7 @@ public:
   //! \brief Get timestamp of the last time an Output class was destroyed
   //! \return Timestamp of last Output class destruction, 0 if none
   //--------------------------------------------------------------------------
-  static uint64_t LastOutput();
+  static TimePoint lastOutput();
 
   //--------------------------------------------------------------------------
   //! \brief Insertion operator
@@ -125,10 +125,10 @@ public:
   }
 
 private:
-  static Mutex    _mutex;
-  static uint64_t _lastOutput;
+  static std::mutex _mutex;
+  static TimePoint _lastOutput;
 };
 
 } // namespace senjo
 
-#endif // SENJO_OUTPUT_H
+#endif // BB_OUTPUT_H

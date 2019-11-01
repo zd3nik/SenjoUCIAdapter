@@ -1,5 +1,5 @@
-//----------------------------------------------------------------------------
-// Copyright (c) 2015 Shawn Chidester <zd3nik@gmail.com>
+//-----------------------------------------------------------------------------
+// Copyright (c) 2015-2019 Shawn Chidester <zd3nik@gmail.com>
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -18,26 +18,18 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
-//----------------------------------------------------------------------------
+//-----------------------------------------------------------------------------
 
-#ifndef SENJO_SQUARE_H
-#define SENJO_SQUARE_H
+#ifndef BB_SQUARE_H
+#define BB_SQUARE_H
 
 #include "Platform.h"
 
-namespace senjo
-{
+namespace senjo {
 
-//----------------------------------------------------------------------------
-#define SQR(x,y) (((y) * 16) + (x))
-#define IS_X(ch) (((ch) >= 'a') && ((ch) <= 'h'))
-#define IS_Y(ch) (((ch) >= '1') && ((ch) <= '8'))
-#define TO_X(ch) ((ch) - 'a')
-#define TO_Y(ch) ((ch) - '1')
-
-//----------------------------------------------------------------------------
+//-----------------------------------------------------------------------------
 //! \brief 0x88 board direction deltas
-//----------------------------------------------------------------------------
+//-----------------------------------------------------------------------------
 enum Direction {
   KnightMove1 = -33,
   KnightMove2 = -31,
@@ -58,9 +50,9 @@ enum Direction {
   KnightMove8 =  33
 };
 
-//----------------------------------------------------------------------------
+//-----------------------------------------------------------------------------
 //! \brief Simple chessboard square representation
-//----------------------------------------------------------------------------
+//-----------------------------------------------------------------------------
 class Square {
 public:
   enum SquareName {
@@ -77,23 +69,23 @@ public:
 
   Square(const int name = None) : sqr((name & ~0x77) ? None : name) { }
   Square(const Square& other) : sqr(other.sqr) { }
-  Square(const int x, const int y) { Assign(x, y); }
-  Square& operator=(const int name) { return Assign(name); }
-  Square& operator=(const Square& other) { return Assign(other); }
-  Square& Assign(const int x, const int y) {
+  Square(const int x, const int y) { assign(x, y); }
+  Square& operator=(const int name) { return assign(name); }
+  Square& operator=(const Square& other) { return assign(other); }
+  Square& assign(const int x, const int y) {
     if ((x >= 0) && (x < 8) && (y >= 0) && (y < 8)) {
-      sqr = SQR(x, y);
+      sqr = ((y * 16) + x);
     }
     else {
       sqr = None;
     }
     return *this;
   }
-  Square& Assign(const int name) {
+  Square& assign(const int name) {
     sqr = (name & ~0x77) ? None : name;
     return *this;
   }
-  Square& Assign(const Square& other) {
+  Square& assign(const Square& other) {
     sqr = other.sqr;
     return *this;
   }
@@ -101,7 +93,7 @@ public:
     if (sqr == H8) {
       sqr = None;
     }
-    else if (IsValid()) {
+    else if (isValid()) {
       if ((sqr % 16) == 7) {
         sqr += 9;
       }
@@ -115,7 +107,7 @@ public:
     if (sqr == A1) {
       sqr = None;
     }
-    else if (IsValid()) {
+    else if (isValid()) {
       if ((sqr % 16) == 0) {
         sqr -= 9;
       }
@@ -126,24 +118,24 @@ public:
     return *this;
   }
   Square& operator+=(const Direction direction) {
-    if (IsValid()) {
+    if (isValid()) {
       if ((sqr += direction) & ~0x77) sqr = None;
     }
     return *this;
   }
   Square& operator-=(const Direction direction) {
-    if (IsValid()) {
+    if (isValid()) {
       if ((sqr -= direction) & ~0x77) sqr = None;
     }
     return *this;
   }
   Square operator+(const Direction direction) const {
-    return IsValid() ? Square(sqr + direction) : Square();
+    return isValid() ? Square(sqr + direction) : Square();
   }
   Square operator-(const Direction direction) const {
-    return IsValid() ? Square(sqr - direction) : Square();
+    return isValid() ? Square(sqr - direction) : Square();
   }
-  Direction DirectionTo(const Square& destination) const {
+  Direction directionTo(const Square& destination) const {
     static const Direction DIRECTION[] = {
       SouthWest,Unknown,Unknown,Unknown,Unknown,Unknown,Unknown,South,
       Unknown,Unknown,Unknown,Unknown,Unknown,Unknown,SouthEast,Unknown,
@@ -176,12 +168,12 @@ public:
       NorthWest,Unknown,Unknown,Unknown,Unknown,Unknown,Unknown,North,
       Unknown,Unknown,Unknown,Unknown,Unknown,Unknown,NorthEast,Unknown
     };
-    if (IsValid() && destination.IsValid()) {
+    if (isValid() && destination.isValid()) {
       return DIRECTION[0x77 + destination.sqr - sqr];
     }
     return Unknown;
   }
-  int DistanceTo(const Square& destination) const {
+  int distanceTo(const Square& destination) const {
     static const int DISTANCE[] = {
       7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,8,7,6,6,6,6,6,6,6,6,6,6,6,6,6,7,8,
       7,6,5,5,5,5,5,5,5,5,5,5,5,6,7,8,7,6,5,4,4,4,4,4,4,4,4,4,5,6,7,8,
@@ -192,29 +184,26 @@ public:
       7,6,5,5,5,5,5,5,5,5,5,5,5,6,7,8,7,6,6,6,6,6,6,6,6,6,6,6,6,6,7,8,
       7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,8
     };
-    if (IsValid() && destination.IsValid()) {
+    if (isValid() && destination.isValid()) {
       return DISTANCE[0x77 + destination.sqr - sqr];
     }
     return 8;
   }
-  SquareName Name() const {
-    assert((sqr == None) || IsValid());
-    return static_cast<SquareName>(sqr);
-  }
-  bool IsValid() const                         { return !(sqr & ~0x77); }
+  int value() const                            { return sqr; }
+  bool isValid() const                         { return !(sqr & ~0x77); }
   bool operator!() const                       { return (sqr & ~0x77); }
   bool operator!=(const Square& other) const   { return (sqr != other.sqr); }
   bool operator<(const Square& other) const    { return (sqr < other.sqr); }
   bool operator==(const Square& other) const   { return (sqr == other.sqr); }
   bool operator==(const SquareName name) const { return (sqr == name); }
   bool operator>(const Square& other) const    { return (sqr > other.sqr); }
-  int X() const { return IsValid() ? (sqr % 16) : -1; }
-  int Y() const { return IsValid() ? (sqr / 16) : -1; }
-  std::string ToString() const {
+  int x() const { return isValid() ? (sqr & 0xF) : -1; }
+  int y() const { return isValid() ? (sqr / 16) : -1; }
+  std::string toString() const {
     std::string str;
-    if (IsValid()) {
-      str += ('a' + (sqr % 16));
-      str += ('1' + (sqr / 16));
+    if (isValid()) {
+      str += static_cast<char>('a' + (sqr % 16));
+      str += static_cast<char>('1' + (sqr / 16));
     }
     return str;
   }
@@ -225,4 +214,4 @@ private:
 
 } // namespace senjo
 
-#endif // SENJO_SQUARE_H
+#endif // BB_SQUARE_H

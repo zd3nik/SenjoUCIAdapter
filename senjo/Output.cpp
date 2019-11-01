@@ -1,5 +1,5 @@
-//----------------------------------------------------------------------------
-// Copyright (c) 2015 Shawn Chidester <zd3nik@gmail.com>
+//-----------------------------------------------------------------------------
+// Copyright (c) 2015-2019 Shawn Chidester <zd3nik@gmail.com>
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -18,29 +18,26 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
-//----------------------------------------------------------------------------
+//-----------------------------------------------------------------------------
 
 #include "Output.h"
 
-namespace senjo
-{
+namespace senjo {
 
-//----------------------------------------------------------------------------
+//-----------------------------------------------------------------------------
 // static variables
-//----------------------------------------------------------------------------
-Mutex    Output::_mutex;
-uint64_t Output::_lastOutput = 0;
+//-----------------------------------------------------------------------------
+std::mutex Output::_mutex;
+TimePoint  Output::_lastOutput = now();
 
-//----------------------------------------------------------------------------
-uint64_t Output::LastOutput()
-{
+//-----------------------------------------------------------------------------
+TimePoint Output::lastOutput() {
   return _lastOutput;
 }
 
-//----------------------------------------------------------------------------
-Output::Output(const OutputPrefix prefix)
-{
-  _mutex.Lock();
+//-----------------------------------------------------------------------------
+Output::Output(const OutputPrefix prefix) {
+  _mutex.lock();
   switch (prefix) {
   case OutputPrefix::InfoPrefix:
     std::cout << "info string ";
@@ -50,13 +47,12 @@ Output::Output(const OutputPrefix prefix)
   }
 }
 
-//----------------------------------------------------------------------------
-Output::~Output()
-{
+//-----------------------------------------------------------------------------
+Output::~Output() {
   std::cout << '\n';
   std::cout.flush();
-  _lastOutput = Now();
-  _mutex.Unlock();
+  _lastOutput = now();
+  _mutex.unlock();
 }
 
 } // namespace senjo
