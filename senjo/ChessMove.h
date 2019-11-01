@@ -1,5 +1,5 @@
-//----------------------------------------------------------------------------
-// Copyright (c) 2015 Shawn Chidester <zd3nik@gmail.com>
+//-----------------------------------------------------------------------------
+// Copyright (c) 2015-2019 Shawn Chidester <zd3nik@gmail.com>
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -18,38 +18,37 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
-//----------------------------------------------------------------------------
+//-----------------------------------------------------------------------------
 
-#ifndef SENJO_MOVE_H
-#define SENJO_MOVE_H
+#ifndef BB_MOVE_H
+#define BB_MOVE_H
 
 #include "Square.h"
 
-namespace senjo
-{
+namespace senjo {
 
-//----------------------------------------------------------------------------
+//-----------------------------------------------------------------------------
 //! \brief Simple chess move representation
-//----------------------------------------------------------------------------
+//-----------------------------------------------------------------------------
 struct ChessMove {
   ChessMove() {
-    Clear();
+    clear();
   }
 
-  void Clear() {
+  void clear() {
     cap = 0;
     promo = 0;
     from = Square::None;
     to = Square::None;
   }
 
-  std::string ToString() const {
+  std::string toString() const {
     std::string str;
-    if (from.IsValid() && to.IsValid() && (from != to)) {
-      str += from.ToString();
-      str += to.ToString();
+    if (from.isValid() && to.isValid() && (from != to)) {
+      str += from.toString();
+      str += to.toString();
       if (promo) {
-        str += tolower(promo);
+        str += static_cast<char>(tolower(promo));
       }
     }
     return str;
@@ -63,4 +62,4 @@ struct ChessMove {
 
 } // namespace senjo
 
-#endif // SENJO_MOVE_H
+#endif // BB_MOVE_H

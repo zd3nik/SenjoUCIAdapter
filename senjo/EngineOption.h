@@ -1,5 +1,5 @@
-//----------------------------------------------------------------------------
-// Copyright (c) 2015 Shawn Chidester <zd3nik@gmail.com>
+//-----------------------------------------------------------------------------
+// Copyright (c) 2015-2019 Shawn Chidester <zd3nik@gmail.com>
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -18,25 +18,24 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
-//----------------------------------------------------------------------------
+//-----------------------------------------------------------------------------
 
-#ifndef SENJO_ENGINE_OPTION_H
-#define SENJO_ENGINE_OPTION_H
+#ifndef BB_ENGINE_OPTION_H
+#define BB_ENGINE_OPTION_H
 
 #include "Platform.h"
 
-namespace senjo
-{
+namespace senjo {
 
-//----------------------------------------------------------------------------
+//-----------------------------------------------------------------------------
 //! \brief Simple representaion of a single chess engine option
 //! Provides details such as option type, name, default/min/max values.
-//----------------------------------------------------------------------------
-class EngineOption
-{
+//-----------------------------------------------------------------------------
+class EngineOption {
 public:
-  enum OptionType
-  {
+  virtual ~EngineOption() {}
+
+  enum OptionType {
     Unknown,  ///< Unknown option type
     Button,   ///< Option does not have a value
     Checkbox, ///< Option value must be "true" or "false"
@@ -221,4 +220,4 @@ private:
 
 } // namespace
 
-#endif // SENJO_ENGINE_OPTION_H
+#endif // BB_ENGINE_OPTION_H

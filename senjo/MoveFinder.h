@@ -1,5 +1,5 @@
-//----------------------------------------------------------------------------
-// Copyright (c) 2015 Shawn Chidester <zd3nik@gmail.com>
+//-----------------------------------------------------------------------------
+// Copyright (c) 2015-2019 Shawn Chidester <zd3nik@gmail.com>
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -18,21 +18,20 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
-//----------------------------------------------------------------------------
+//-----------------------------------------------------------------------------
 
-#ifndef SENJO_MOVE_FINDER_H
-#define SENJO_MOVE_FINDER_H
+#ifndef BB_MOVE_FINDER_H
+#define BB_MOVE_FINDER_H
 
 #include "ChessMove.h"
 
 namespace senjo {
 
-//----------------------------------------------------------------------------
+//-----------------------------------------------------------------------------
 //! \brief Psueod-legal position loader and move generator
 //! Used for translating algebraic moves to coordinates.
-//----------------------------------------------------------------------------
-class MoveFinder
-{
+//-----------------------------------------------------------------------------
+class MoveFinder {
 public:
   //--------------------------------------------------------------------------
   //! \brief Is the given character a FEN piece letter?
@@ -40,14 +39,14 @@ public:
   //! \param[in] ch The character to test
   //! \return true if \p ch is a supported piece character
   //--------------------------------------------------------------------------
-  static bool IsPiece(const char ch);
+  static bool isPiece(const char ch);
 
   //--------------------------------------------------------------------------
   //! \brief Load board position from given FEN string
   //! \param[in] fen The FEN string
   //! \return true if \P fen is valid
   //--------------------------------------------------------------------------
-  bool LoadFEN(const char* fen);
+  bool loadFEN(const std::string& fen);
 
   //--------------------------------------------------------------------------
   //! \brief Convert given move string into coordinate notation
@@ -57,42 +56,42 @@ public:
   //!   optional promotion piece type (1 byte)
   //! Examples: "e2e4", "g8f6", "e7f8q"
   //! File names and promotion piece type are always lowercase.
-  //! \param[in,out] moveStr The move string, set to first character after move
+  //! \param[in] moveStr The move string to convert
   //! \return An empty string if \p moveStr is not valid
   //--------------------------------------------------------------------------
-  std::string ToCoordinates(char*& moveStr) const;
+  std::string toCoordinates(const std::string& moveStr) const;
 
 private:
-  char Friend(const char piece) const;
-  char Enemy(const char piece) const;
+  char friendPiece(const char piece) const;
+  char enemyPiece(const char piece) const;
 
-  std::string PawnMove(const char* str, Square from = Square::None,
+  std::string pawnMove(const char* str, Square from = Square::None,
                        Square to = Square::None) const;
-  std::string KnightMove(const char* str, Square from= Square::None,
+  std::string knightMove(const char* str, Square from= Square::None,
                          Square to = Square::None) const;
-  std::string BishopMove(const char* str, Square from= Square::None,
+  std::string bishopMove(const char* str, Square from= Square::None,
                          Square to = Square::None) const;
-  std::string RookMove(const char* str, Square from= Square::None,
+  std::string rookMove(const char* str, Square from= Square::None,
                        Square to = Square::None) const;
-  std::string QueenMove(const char* str, Square from= Square::None,
+  std::string queenMove(const char* str, Square from= Square::None,
                         Square to = Square::None) const;
-  std::string KingMove(const char* str, Square from= Square::None,
+  std::string kingMove(const char* str, Square from= Square::None,
                        Square to = Square::None) const;
-  std::string PieceMove(const char*& str, const char type,
+  std::string pieceMove(const char*& str, const char type,
                         Square& from, Square& to) const;
 
-  void AddOrigins(const char type, int x, int y, std::set<Square>& origs) const;
-  bool AddMove(ChessMove&, const Square& dest, const int x, const int y,
+  void addOrigins(const char type, int x, int y, std::set<Square>& origs) const;
+  bool addMove(ChessMove&, const Square& dest, const int x, const int y,
                const char cap, std::list<ChessMove>& moves) const;
-  void AddBishopMoves(const std::set<Square>& origins, const int x, const int y,
+  void addBishopMoves(const std::set<Square>& origins, const int x, const int y,
                       const char cap, std::list<ChessMove>& moves) const;
-  void AddKingMoves(const std::set<Square>& origins, const int x, const int y,
+  void addKingMoves(const std::set<Square>& origins, const int x, const int y,
                     const char cap, std::list<ChessMove>& moves) const;
-  void AddKnightMoves(const std::set<Square>& origins, const int x, const int y,
+  void addKnightMoves(const std::set<Square>& origins, const int x, const int y,
                       const char cap, std::list<ChessMove>& moves) const;
-  void AddPawnMoves(const std::set<Square>& origins, const int x, const int y,
+  void addPawnMoves(const std::set<Square>& origins, const int x, const int y,
                     const char cap, std::list<ChessMove>& moves) const;
-  void AddRookMoves(const std::set<Square>& origins, const int x, const int y,
+  void addRookMoves(const std::set<Square>& origins, const int x, const int y,
                     const char cap, std::list<ChessMove>& moves) const;
 
   enum ColorToMove { White, Black } ctm;
@@ -104,4 +103,4 @@ private:
 
 } // namespace senjo
 
-#endif // SENJO_MOVE_FINDER_H
+#endif // BB_MOVE_FINDER_H
