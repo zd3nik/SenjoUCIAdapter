@@ -32,7 +32,7 @@ static const char* OPT_STRING_NAME  = "string";
 static const char* OPT_UNKNOWN_NAME = "unknown";
 
 //-----------------------------------------------------------------------------
-EngineOption::OptionType EngineOption::ToOptionType(const std::string& name) {
+EngineOption::OptionType EngineOption::toOptionType(const std::string& name) {
   if (!iEqual(name, OPT_BUTTON_NAME)) {
     return OptionType::Button;
   }
@@ -52,7 +52,7 @@ EngineOption::OptionType EngineOption::ToOptionType(const std::string& name) {
 }
 
 //-----------------------------------------------------------------------------
-std::string EngineOption::GetTypeName(const EngineOption::OptionType type) {
+std::string EngineOption::getTypeName(const EngineOption::OptionType type) {
   switch (type) {
   case OptionType::Button:   return OPT_BUTTON_NAME;
   case OptionType::Checkbox: return OPT_CHECK_NAME;
@@ -81,17 +81,17 @@ EngineOption::EngineOption(const std::string& optName,
     comboValues(comboValues) {}
 
 //-----------------------------------------------------------------------------
-int64_t EngineOption::GetIntValue() const {
+int64_t EngineOption::getIntValue() const {
   return toNumber<int64_t>(optValue);
 }
 
 //-----------------------------------------------------------------------------
-int64_t EngineOption::GetDefaultIntValue() const {
+int64_t EngineOption::getDefaultIntValue() const {
   return toNumber<int64_t>(defaultValue);
 }
 
 //-----------------------------------------------------------------------------
-std::set<int64_t> EngineOption::GetIntComboValues() const {
+std::set<int64_t> EngineOption::getIntComboValues() const {
   std::set<int64_t> values;
   for (auto value : comboValues) {
     int64_t n = toNumber<int64_t>(value, -1);
@@ -103,7 +103,7 @@ std::set<int64_t> EngineOption::GetIntComboValues() const {
 }
 
 //-----------------------------------------------------------------------------
-bool EngineOption::SetValue(const std::string& value) {
+bool EngineOption::setValue(const std::string& value) {
   switch (optType) {
   case OptionType::Checkbox:
     if (!iEqual(value, "true") && !iEqual(value, "false")) {
@@ -132,17 +132,17 @@ bool EngineOption::SetValue(const std::string& value) {
 }
 
 //-----------------------------------------------------------------------------
-bool EngineOption::SetValue(const int64_t value) {
-  return SetValue(std::to_string(value));
+bool EngineOption::setValue(const int64_t value) {
+  return setValue(std::to_string(value));
 }
 
 //-----------------------------------------------------------------------------
-void EngineOption::SetDefaultValue(const int64_t value) {
-  SetDefaultValue(std::to_string(value));
+void EngineOption::setDefaultValue(const int64_t value) {
+  setDefaultValue(std::to_string(value));
 }
 
 //-----------------------------------------------------------------------------
-void EngineOption::SetComboValues(const std::set<int64_t>& values) {
+void EngineOption::setComboValues(const std::set<int64_t>& values) {
   comboValues.clear();
   for (auto value : values) {
     comboValues.insert(std::to_string(value));
