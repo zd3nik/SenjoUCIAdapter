@@ -49,14 +49,14 @@ public:
   //! \param[in] name The option type name
   //! \return Unknown if \p name is not known
   //--------------------------------------------------------------------------
-  static OptionType ToOptionType(const std::string& name);
+  static OptionType toOptionType(const std::string& name);
 
   //--------------------------------------------------------------------------
   //! \brief Get a string representation of a given option type
   //! \param[in] type The option type
   //! \return A string representation of \p type
   //--------------------------------------------------------------------------
-  static std::string GetTypeName(const OptionType type);
+  static std::string getTypeName(const OptionType type);
 
   //--------------------------------------------------------------------------
   //! \brief Constructor
@@ -78,61 +78,61 @@ public:
   //! \brief Get the option type
   //! \return The option type
   //--------------------------------------------------------------------------
-  OptionType GetType() const { return optType; }
+  OptionType getType() const { return optType; }
 
   //--------------------------------------------------------------------------
   //! \brief Get a string representation of the option type
   //! \return A string representation of the option type
   //--------------------------------------------------------------------------
-  virtual std::string GetTypeName() const { return GetTypeName(optType); }
+  virtual std::string getTypeName() const { return getTypeName(optType); }
 
   //--------------------------------------------------------------------------
   //! \brief Get the option name
   //! \return The option name
   //--------------------------------------------------------------------------
-  virtual std::string GetName() const { return optName; }
+  virtual std::string getName() const { return optName; }
 
   //--------------------------------------------------------------------------
   //! \brief Get the option's current value in string form
   //! \return The option's current value in string form
   //--------------------------------------------------------------------------
-  virtual std::string GetValue() const { return optValue; }
+  virtual std::string getValue() const { return optValue; }
 
   //--------------------------------------------------------------------------
   //! \brief Get the option's current value in integer form
   //! \return The option's current value in integer form, 0 if not an integer
   //--------------------------------------------------------------------------
-  virtual int64_t GetIntValue() const;
+  virtual int64_t getIntValue() const;
 
   //--------------------------------------------------------------------------
   //! \brief Get the option's default value in string form
   //! \return The option's default value in string form
   //--------------------------------------------------------------------------
-  virtual std::string GetDefaultValue() const { return defaultValue; }
+  virtual std::string getDefaultValue() const { return defaultValue; }
 
   //--------------------------------------------------------------------------
   //! \brief Get the option's default value in integer form
   //! \return The option's default value in integer form, 0 if not an integer
   //--------------------------------------------------------------------------
-  virtual int64_t GetDefaultIntValue() const;
+  virtual int64_t getDefaultIntValue() const;
 
   //--------------------------------------------------------------------------
   //! \brief Get the option's minimum value (applicable to Spin type only)
   //! \return The option's minimum value
   //--------------------------------------------------------------------------
-  virtual int64_t GetMinValue() const { return minValue; }
+  virtual int64_t getMinValue() const { return minValue; }
 
   //--------------------------------------------------------------------------
   //! \brief Get the option's maximum value (applicable to Spin type only)
   //! \return The option's maximum value
   //--------------------------------------------------------------------------
-  virtual int64_t GetMaxValue() const { return maxValue; }
+  virtual int64_t getMaxValue() const { return maxValue; }
 
   //--------------------------------------------------------------------------
   //! \brief Get set of legal values for ComboBox options in string form
   //! \return set of legal values for ComboBox options in string form
   //--------------------------------------------------------------------------
-  virtual const std::set<std::string>& GetComboValues() const {
+  virtual const std::set<std::string>& getComboValues() const {
     return comboValues;
   }
 
@@ -140,39 +140,39 @@ public:
   //! \brief Get set of legal values for ComboBox options in integer form
   //! \return set of legal values for ComboBox options in integer form
   //--------------------------------------------------------------------------
-  virtual std::set<int64_t> GetIntComboValues() const;
+  virtual std::set<int64_t> getIntComboValues() const;
 
   //--------------------------------------------------------------------------
   //! \brief Set the option type
   //! \param[in] type The new option type
   //--------------------------------------------------------------------------
-  virtual void SetType(const OptionType type) { optType = type; }
+  virtual void setType(const OptionType type) { optType = type; }
 
   //--------------------------------------------------------------------------
   //! \brief Set the option name
   //! \param[in] name The new option name
   //--------------------------------------------------------------------------
-  virtual void SetName(const std::string& name) { optName = name; }
+  virtual void setName(const std::string& name) { optName = name; }
 
   //--------------------------------------------------------------------------
   //! \brief Set the option's current value
   //! \param[in] value The new option value
   //--------------------------------------------------------------------------
-  virtual bool SetValue(const std::string& value);
+  virtual bool setValue(const std::string& value);
 
   //--------------------------------------------------------------------------
   //! \brief Set the option's current value
   //! \param[in] value The new option value
   //! \return true if \p value is valid, otherwise false
   //--------------------------------------------------------------------------
-  virtual bool SetValue(const int64_t value);
+  virtual bool setValue(const int64_t value);
 
   //--------------------------------------------------------------------------
   //! \brief Set the option's default value
   //! \param[in] value The new default value
   //! \return true if \p value is valid, otherwise false
   //--------------------------------------------------------------------------
-  virtual void SetDefaultValue(const std::string& value) {
+  virtual void setDefaultValue(const std::string& value) {
     defaultValue = value;
   }
 
@@ -180,25 +180,25 @@ public:
   //! \brief Set the option's default value
   //! \param[in] value The new default value
   //--------------------------------------------------------------------------
-  virtual void SetDefaultValue(const int64_t value);
+  virtual void setDefaultValue(const int64_t value);
 
   //--------------------------------------------------------------------------
   //! \brief Set the option's minimum value (applicable to Spin type only)
   //! \param[in] min The new minimum value
   //--------------------------------------------------------------------------
-  virtual void SetMinValue(const int64_t min) { minValue = min; }
+  virtual void setMinValue(const int64_t min) { minValue = min; }
 
   //--------------------------------------------------------------------------
   //! \brief Set the option's maximum value (applicable to Spin type only)
   //! \param[in] max The new maximum value
   //--------------------------------------------------------------------------
-  virtual void SetMaxValue(const int64_t max) { maxValue = max; }
+  virtual void setMaxValue(const int64_t max) { maxValue = max; }
 
   //--------------------------------------------------------------------------
   //! \brief Set legal values for ComboBox options
   //! \param[in] values The set of legal values
   //--------------------------------------------------------------------------
-  virtual void SetComboValues(const std::set<std::string>& values) {
+  virtual void setComboValues(const std::set<std::string>& values) {
     comboValues = values;
   }
 
@@ -206,7 +206,7 @@ public:
   //! \brief Set legal values for ComboBox options
   //! \param[in] values The set of legal values
   //--------------------------------------------------------------------------
-  virtual void SetComboValues(const std::set<int64_t>& values);
+  virtual void setComboValues(const std::set<int64_t>& values);
 
 private:
   OptionType  optType;
