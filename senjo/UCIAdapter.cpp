@@ -298,17 +298,17 @@ void UCIAdapter::doNewCommand(Parameters& params) {
 //-----------------------------------------------------------------------------
 void UCIAdapter::doOptsCommand(Parameters& /*params*/) {
   for (auto opt : engine.getOptions()) {
-    switch (opt.GetType()) {
+    switch (opt.getType()) {
     case EngineOption::Checkbox:
     case EngineOption::Spin:
     case EngineOption::String:
-      Output() << opt.GetTypeName() << ':' << opt.GetName() << ' '
-               << opt.GetValue();
+      Output() << opt.getTypeName() << ':' << opt.getName() << ' '
+               << opt.getValue();
       break;
     case EngineOption::ComboBox: {
-      const std::set<std::string>& values = opt.GetComboValues();
+      const std::set<std::string>& values = opt.getComboValues();
       Output out;
-      out << opt.GetTypeName() << ':' << opt.GetName();
+      out << opt.getTypeName() << ':' << opt.getName();
       for (auto value : values) {
         out << ' ' << value;
       }
@@ -478,17 +478,17 @@ void UCIAdapter::doUCICommand(Parameters& params) {
 
   for (auto opt : engine.getOptions()) {
     Output out(Output::NoPrefix);
-    out << "option name " << opt.GetName() << " type " << opt.GetTypeName();
-    if (opt.GetDefaultValue().size()) {
-      out << " default " << opt.GetDefaultValue();
+    out << "option name " << opt.getName() << " type " << opt.getTypeName();
+    if (opt.getDefaultValue().size()) {
+      out << " default " << opt.getDefaultValue();
     }
-    if (opt.GetMinValue() > INT64_MIN) {
-      out << " min " << opt.GetMinValue();
+    if (opt.getMinValue() > INT64_MIN) {
+      out << " min " << opt.getMinValue();
     }
-    if (opt.GetMaxValue() < INT64_MAX) {
-      out << " max " << opt.GetMaxValue();
+    if (opt.getMaxValue() < INT64_MAX) {
+      out << " max " << opt.getMaxValue();
     }
-    for (auto val : opt.GetComboValues()) {
+    for (auto val : opt.getComboValues()) {
       out << " var " << val;
     }
   }
