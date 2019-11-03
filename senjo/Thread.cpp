@@ -65,7 +65,7 @@ void Thread::staticRun(Thread* thread) {
   if (thread) {
     try {
       thread->doWork();
-    } catch (std::exception ex) {
+    } catch (const std::exception& ex) {
       Output() << "ERROR: Thread(" << thread->getId() << ") " << ex.what();
     } catch (...) {
       Output() << "ERROR: Thread(" << thread->getId() << ") unhandled exception";
