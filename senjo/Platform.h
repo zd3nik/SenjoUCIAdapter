@@ -34,6 +34,7 @@
 #include <list>
 #include <set>
 #include <cassert>
+#include <cstring>
 
 namespace senjo {
 

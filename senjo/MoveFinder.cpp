@@ -23,7 +23,6 @@
 #include "MoveFinder.h"
 #include "Parameters.h"
 #include "Output.h"
-#include <cstring>
 
 namespace senjo {
 
