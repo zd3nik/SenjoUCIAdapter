@@ -27,15 +27,24 @@
 
 namespace senjo {
 
+//-----------------------------------------------------------------------------
 struct SearchStats {
-  std::string move;        // The move currently being searched
-  int      movenum    = 0; // The number of the move currently being searched
-  int      depth      = 0; // The current search depth
-  int      seldepth   = 0; // The maximum selective depth reached on "move"
-  uint64_t nodes      = 0; // The number of nodes searched so far
-  uint64_t qnodes     = 0; // The number of quiescence nodes searched so far
-  uint64_t msecs      = 0; // The number of milliseconds spent searching so far
+  int      depth    = 0; // The current search depth
+  int      seldepth = 0; // The maximum selective depth reached on "move"
+  uint64_t nodes    = 0; // The number of nodes searched so far
+  uint64_t qnodes   = 0; // The number of quiescence nodes searched so far
+  uint64_t msecs    = 0; // The number of milliseconds spent searching so far
 };
+
+//-----------------------------------------------------------------------------
+inline std::ostream& operator<<(std::ostream& os, const SearchStats& stats) {
+  os << "depth " << stats.depth
+     << " seldepth " << stats.seldepth
+     << " nodes " << stats.nodes
+     << " time " << stats.msecs
+     << " nps " << static_cast<uint64_t>(rate(stats.nodes, stats.msecs));
+  return os;
+}
 
 } // namespace senjo
 

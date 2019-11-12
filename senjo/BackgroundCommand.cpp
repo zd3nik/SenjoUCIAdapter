@@ -201,7 +201,7 @@ void PerftCommandHandle::doWork() {
     line++;
 
     size_t i = fen.find_first_not_of(" \t\r\n");
-    if ((i = std::string::npos) || (fen[i] == '#')) {
+    if ((i == std::string::npos) || (fen[i] == '#')) {
       continue;
     }
 
@@ -219,7 +219,7 @@ void PerftCommandHandle::doWork() {
     // process "D<depth> <leafs>" parameters (e.g. D5 4865609)
     Parameters params(remain);
     while (!done && params.size()) {
-      std::string depthToken = params.popString();
+      std::string depthToken = trim(params.popString(), " ;");
       if (depthToken.empty() || (depthToken.at(0) != 'D')) {
         continue;
       }
@@ -241,13 +241,13 @@ void PerftCommandHandle::doWork() {
         break;
       }
 
-      done = !process(depth, leafs, pcount, nodes, qnodes);
+      done |= !process(depth, leafs, pcount, nodes, qnodes);
     }
 
-    done = ((count > 0) && (positions >= count));
+    done |= ((count > 0) && (positions >= count));
   }
 
-  double msecs = std::chrono::duration_cast<std::chrono::milliseconds>(now() - start).count();
+  double msecs = getMsecs(start, now());
   Output() << "Total Perft " << pcount << ' '
            << rate(double(pcount / 1000), msecs) << " KLeafs/sec";
   Output() << "Total Nodes " << nodes << ' '

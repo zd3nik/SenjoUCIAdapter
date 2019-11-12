@@ -216,7 +216,7 @@ public:
   //! It is not recommended to set this to true while Perft() is executing.
   //! \return true if the engine is searching
   //---------------------------------------------------------------------------
-  virtual bool isSearching() const = 0;
+  virtual bool isSearching() = 0;
 
   //---------------------------------------------------------------------------
   //! \brief Tell the engine to stop searching

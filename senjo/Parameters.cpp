@@ -71,7 +71,11 @@ bool Parameters::popParam(const std::string& paramName) {
 
 //-----------------------------------------------------------------------------
 bool Parameters::popParam(const std::string& paramName, bool& exists) {
-  return (exists = popParam(paramName));
+  if (popParam(paramName)) {
+    exists = true;
+    return true;
+  }
+  return false;
 }
 
 //-----------------------------------------------------------------------------
