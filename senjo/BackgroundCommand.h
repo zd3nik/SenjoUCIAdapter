@@ -78,7 +78,7 @@ protected:
 //-----------------------------------------------------------------------------
 class RegisterCommandHandle : public BackgroundCommand {
 public:
-  RegisterCommandHandle(ChessEngine& engine) : BackgroundCommand(engine) { }
+  RegisterCommandHandle(ChessEngine& eng) : BackgroundCommand(eng) { }
   std::string usage() const {
     return "register [later] [name <x>] [code <x>]";
   }
@@ -102,7 +102,7 @@ private:
 //-----------------------------------------------------------------------------
 class GoCommandHandle : public BackgroundCommand {
 public:
-  GoCommandHandle(ChessEngine& engine) : BackgroundCommand(engine) { }
+  GoCommandHandle(ChessEngine& eng) : BackgroundCommand(eng) { }
   std::string usage() const {
     return "go [infinite] [ponder] [depth <x>] [nodes <x>] "
         "[wtime <x>] [btime <x>] [winc <x>] [binc <x>] "
@@ -128,9 +128,9 @@ private:
 //-----------------------------------------------------------------------------
 class PerftCommandHandle : public BackgroundCommand {
 public:
-  PerftCommandHandle(ChessEngine& engine) : BackgroundCommand(engine) { }
+  PerftCommandHandle(ChessEngine& eng) : BackgroundCommand(eng) { }
   std::string usage() const {
-    return ("perft [depth <x>] [count <x>] [skip <x>] [leafs <x>] "
+    return ("perft [unsorted] [depth <x>] [count <x>] [skip <x>] [leafs <x>] "
             "[epd] [file <x> (default=" + _TEST_FILE + ")]");
   }
   std::string description() const {
@@ -150,6 +150,7 @@ private:
 
   static const std::string _TEST_FILE;
 
+  bool        unsorted;
   int         count;
   int         skip;
   int         maxDepth;
@@ -162,7 +163,7 @@ private:
 //-----------------------------------------------------------------------------
 class TestCommandHandle : public BackgroundCommand {
 public:
-  TestCommandHandle(ChessEngine& engine) : BackgroundCommand(engine) { }
+  TestCommandHandle(ChessEngine& eng) : BackgroundCommand(eng) { }
   std::string usage() const {
     return "test [print] [skip <x>] [count <x>] [depth <x>] [time <msecs>] "
         "[gain <x>] [file <x> (default=" + _TEST_FILE + ")]";

@@ -52,6 +52,18 @@ inline TimePoint maxTime() {
 }
 
 //-----------------------------------------------------------------------------
+inline TimePoint addMsecs(const TimePoint& begin, const uint64_t msecs) {
+  return (begin + std::chrono::milliseconds(msecs));
+}
+
+//-----------------------------------------------------------------------------
+inline uint64_t getMsecs(const TimePoint& begin, const TimePoint& end = now()) {
+  auto duration = (end - begin);
+  auto msecs = std::chrono::duration_cast<std::chrono::milliseconds>(duration);
+  return uint64_t(msecs.count());
+}
+
+//-----------------------------------------------------------------------------
 template<typename T>
 inline double average(const T total, const T count) {
   return (count != 0.0) ? (double(total) / double(count)) : 0;
@@ -74,6 +86,32 @@ template<typename T>
 inline T toNumber(const std::string& str, const T defaultValue = 0) {
   T number;
   return (std::stringstream(str) >> number) ? number : defaultValue;
+}
+
+//-----------------------------------------------------------------------------
+inline std::string trimLeft(const std::string& str,
+                            const std::string& chars = " ")
+{
+  size_t i = str.find_first_not_of(chars);
+  return (i == std::string::npos) ? str : str.substr(i);
+}
+
+//-----------------------------------------------------------------------------
+inline std::string trimRight(const std::string& str,
+                             const std::string& chars = " ")
+{
+  size_t i = str.size();
+  while ((i > 0) && (chars.find_first_of(str[i - 1]) != std::string::npos)) {
+    --i;
+  }
+  return str.substr(0, i);
+}
+
+//-----------------------------------------------------------------------------
+inline std::string trim(const std::string& str,
+                        const std::string& chars = " ")
+{
+  return trimRight(trimLeft(str, chars), chars);
 }
 
 //-----------------------------------------------------------------------------
