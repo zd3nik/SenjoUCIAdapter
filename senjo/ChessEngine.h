@@ -20,8 +20,8 @@
 // THE SOFTWARE.
 //-----------------------------------------------------------------------------
 
-#ifndef BB_CHESS_ENGINE_H
-#define BB_CHESS_ENGINE_H
+#ifndef SENJO_CHESS_ENGINE_H
+#define SENJO_CHESS_ENGINE_H
 
 #include "EngineOption.h"
 #include "GoParams.h"
@@ -276,4 +276,4 @@ public:
 
 } // namespace senjo
 
-#endif // BB_CHESS_ENGINE_H
+#endif // SENJO_CHESS_ENGINE_H

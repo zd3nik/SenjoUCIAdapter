@@ -20,8 +20,8 @@
 // THE SOFTWARE.
 //-----------------------------------------------------------------------------
 
-#ifndef BB_OUTPUT_H
-#define BB_OUTPUT_H
+#ifndef SENJO_OUTPUT_H
+#define SENJO_OUTPUT_H
 
 #include "Platform.h"
 #include <iostream>
@@ -131,4 +131,4 @@ private:
 
 } // namespace senjo
 
-#endif // BB_OUTPUT_H
+#endif // SENJO_OUTPUT_H

@@ -20,8 +20,8 @@
 // THE SOFTWARE.
 //-----------------------------------------------------------------------------
 
-#ifndef BB_ENGINE_OPTION_H
-#define BB_ENGINE_OPTION_H
+#ifndef SENJO_ENGINE_OPTION_H
+#define SENJO_ENGINE_OPTION_H
 
 #include "Platform.h"
 
@@ -220,4 +220,4 @@ private:
 
 } // namespace
 
-#endif // BB_ENGINE_OPTION_H
+#endif // SENJO_ENGINE_OPTION_H

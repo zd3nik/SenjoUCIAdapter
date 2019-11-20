@@ -20,8 +20,8 @@
 // THE SOFTWARE.
 //-----------------------------------------------------------------------------
 
-#ifndef BB_GO_PARAMS_H
-#define BB_GO_PARAMS_H
+#ifndef SENJO_GO_PARAMS_H
+#define SENJO_GO_PARAMS_H
 
 #include "Platform.h"
 
@@ -42,4 +42,4 @@ struct GoParams {
 
 } // namespace senjo
 
-#endif // BB_GO_PARAMS_H
+#endif // SENJO_GO_PARAMS_H

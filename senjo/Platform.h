@@ -20,8 +20,8 @@
 // THE SOFTWARE.
 //-----------------------------------------------------------------------------
 
-#ifndef BB_PLATFORM_H
-#define BB_PLATFORM_H
+#ifndef SENJO_PLATFORM_H
+#define SENJO_PLATFORM_H
 
 #ifdef WIN32
 #include <Windows.h>
@@ -136,4 +136,4 @@ inline bool isMove(const std::string& str) {
 
 } // namespace senjo
 
-#endif // BB_PLATFORM_H
+#endif // SENJO_PLATFORM_H

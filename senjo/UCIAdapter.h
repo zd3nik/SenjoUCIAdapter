@@ -20,8 +20,8 @@
 // THE SOFTWARE.
 //-----------------------------------------------------------------------------
 
-#ifndef BB_UCI_ADAPTER_H
-#define BB_UCI_ADAPTER_H
+#ifndef SENJO_UCI_ADAPTER_H
+#define SENJO_UCI_ADAPTER_H
 
 #include "ChessEngine.h"
 #include "Parameters.h"
@@ -68,4 +68,4 @@ private:
 
 } // namespace senjo
 
-#endif // BB_UCI_ADAPTER_H
+#endif // SENJO_UCI_ADAPTER_H
