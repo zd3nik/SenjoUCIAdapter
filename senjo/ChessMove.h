@@ -20,8 +20,8 @@
 // THE SOFTWARE.
 //-----------------------------------------------------------------------------
 
-#ifndef BB_MOVE_H
-#define BB_MOVE_H
+#ifndef SENJO_MOVE_H
+#define SENJO_MOVE_H
 
 #include "Square.h"
 
@@ -62,4 +62,4 @@ struct ChessMove {
 
 } // namespace senjo
 
-#endif // BB_MOVE_H
+#endif // SENJO_MOVE_H

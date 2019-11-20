@@ -20,8 +20,8 @@
 // THE SOFTWARE.
 //-----------------------------------------------------------------------------
 
-#ifndef BB_BACKGROUND_COMMAND_H
-#define BB_BACKGROUND_COMMAND_H
+#ifndef SENJO_BACKGROUND_COMMAND_H
+#define SENJO_BACKGROUND_COMMAND_H
 
 #include "ChessEngine.h"
 #include "Parameters.h"
@@ -194,4 +194,4 @@ private:
 
 } // namespace senjo
 
-#endif // BB_BACKGROUND_COMMAND_H
+#endif // SENJO_BACKGROUND_COMMAND_H

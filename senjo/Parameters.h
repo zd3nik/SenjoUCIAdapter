@@ -20,8 +20,8 @@
 // THE SOFTWARE.
 //-----------------------------------------------------------------------------
 
-#ifndef BB_PARAMETERS_H
-#define BB_PARAMETERS_H
+#ifndef SENJO_PARAMETERS_H
+#define SENJO_PARAMETERS_H
 
 #include "Platform.h"
 
@@ -140,4 +140,4 @@ public:
 
 } // namespace senjo
 
-#endif // BB_PARAMETERS_H
+#endif // SENJO_PARAMETERS_H

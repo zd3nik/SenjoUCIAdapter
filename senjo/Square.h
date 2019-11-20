@@ -20,8 +20,8 @@
 // THE SOFTWARE.
 //-----------------------------------------------------------------------------
 
-#ifndef BB_SQUARE_H
-#define BB_SQUARE_H
+#ifndef SENJO_SQUARE_H
+#define SENJO_SQUARE_H
 
 #include "Platform.h"
 
@@ -214,4 +214,4 @@ private:
 
 } // namespace senjo
 
-#endif // BB_SQUARE_H
+#endif // SENJO_SQUARE_H

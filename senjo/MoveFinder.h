@@ -20,8 +20,8 @@
 // THE SOFTWARE.
 //-----------------------------------------------------------------------------
 
-#ifndef BB_MOVE_FINDER_H
-#define BB_MOVE_FINDER_H
+#ifndef SENJO_MOVE_FINDER_H
+#define SENJO_MOVE_FINDER_H
 
 #include "ChessMove.h"
 
@@ -103,4 +103,4 @@ private:
 
 } // namespace senjo
 
-#endif // BB_MOVE_FINDER_H
+#endif // SENJO_MOVE_FINDER_H

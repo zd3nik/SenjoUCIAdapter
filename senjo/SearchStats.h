@@ -20,8 +20,8 @@
 // THE SOFTWARE.
 //-----------------------------------------------------------------------------
 
-#ifndef BB_SEARCH_STATS_H
-#define BB_SEARCH_STATS_H
+#ifndef SENJO_SEARCH_STATS_H
+#define SENJO_SEARCH_STATS_H
 
 #include "Platform.h"
 
@@ -48,4 +48,4 @@ inline std::ostream& operator<<(std::ostream& os, const SearchStats& stats) {
 
 } // namespace senjo
 
-#endif // BB_SEARCH_STATS_H
+#endif // SENJO_SEARCH_STATS_H

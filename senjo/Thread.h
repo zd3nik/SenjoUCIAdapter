@@ -20,8 +20,8 @@
 // THE SOFTWARE.
 //-----------------------------------------------------------------------------
 
-#ifndef BB_THREADING_H
-#define BB_THREADING_H
+#ifndef SENJO_THREADING_H
+#define SENJO_THREADING_H
 
 #include "Platform.h"
 #include <mutex>
@@ -96,4 +96,4 @@ private:
 
 } // namespace senjo
 
-#endif // BB_THREADING_H
+#endif // SENJO_THREADING_H
