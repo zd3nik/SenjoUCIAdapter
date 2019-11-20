@@ -146,7 +146,7 @@ protected:
 
 private:
   bool process(const int depth, const uint64_t expected_leaf_count,
-               uint64_t& leaf_count, uint64_t& nodes, uint64_t& qnodes);
+               uint64_t& leaf_count);
 
   static const std::string _TEST_FILE;
 
@@ -166,7 +166,7 @@ public:
   TestCommandHandle(ChessEngine& eng) : BackgroundCommand(eng) { }
   std::string usage() const {
     return "test [print] [skip <x>] [count <x>] [depth <x>] [time <msecs>] "
-        "[gain <x>] [file <x> (default=" + _TEST_FILE + ")]";
+        "[fail <x>] [file <x> (default=" + _TEST_FILE + ")]";
   }
   std::string description() const {
     return "Find the best move for a suite of test positions.";
@@ -186,7 +186,7 @@ private:
   bool        printBoard;
   int         maxCount;
   int         maxDepth;
-  int         minGain;
+  int         maxFails;
   int         skipCount;
   uint64_t    maxTime;
   std::string fileName;

@@ -188,8 +188,6 @@ void PerftCommandHandle::doWork() {
 
   const TimePoint start = now();
   uint64_t pcount = 0;
-  uint64_t nodes = 0;
-  uint64_t qnodes = 0;
   bool done = false;
   int positions = 0;
   int line = 0;
@@ -241,17 +239,17 @@ void PerftCommandHandle::doWork() {
         break;
       }
 
-      done |= !process(depth, leafs, pcount, nodes, qnodes);
+      done |= !process(depth, leafs, pcount);
     }
 
     done |= ((count > 0) && (positions >= count));
   }
 
   double msecs = getMsecs(start, now());
+  double kLeafs = (double(pcount) / 1000);
+
   Output() << "Total Perft " << pcount << ' '
-           << rate(double(pcount / 1000), msecs) << " KLeafs/sec";
-  Output() << "Total Nodes " << nodes << ' '
-           << rate(double(nodes / 1000), msecs) << " KNodes/sec";
+           << rate(kLeafs, msecs) << " KLeafs/sec";
 }
 
 //-----------------------------------------------------------------------------
@@ -259,15 +257,11 @@ void PerftCommandHandle::doWork() {
 //! \param[in] depth The depth to search to
 //! \param[in] expected_leaf_count The expected leaf count at \p depth
 //! \param[out] leaf_count The actual leaf count at \p depth
-//! \param[out] nodes The total number of nodes visited
-//! \param[out] qnodes The total number of quiescence nodes visited
 //! \return false if leaf_count count does not match expected leaf count
 //-----------------------------------------------------------------------------
 bool PerftCommandHandle::process(const int depth,
                                  const uint64_t expected_leaf_count,
-                                 uint64_t& leaf_count,
-                                 uint64_t& nodes,
-                                 uint64_t& qnodes)
+                                 uint64_t& leaf_count)
 {
   if ((maxDepth > 0) && (depth > maxDepth)) {
     return true;
@@ -279,11 +273,7 @@ bool PerftCommandHandle::process(const int depth,
 
   Output() << "--- " << depth << " => " << expected_leaf_count;
   uint64_t perft_count = engine.perft(depth);
-  SearchStats stats = engine.getSearchStats();
-
   leaf_count += perft_count;
-  nodes += stats.nodes;
-  qnodes += stats.qnodes;
 
   if (perft_count != expected_leaf_count) {
     Output() << "--- " << perft_count << " != " << expected_leaf_count;
@@ -302,7 +292,7 @@ bool TestCommandHandle::parse(Parameters& params) {
   printBoard = false;
   maxCount   = 0;
   maxDepth   = 0;
-  minGain    = 0;
+  maxFails   = 0;
   skipCount  = 0;
   maxTime    = 0;
   fileName   = "";
@@ -313,7 +303,7 @@ bool TestCommandHandle::parse(Parameters& params) {
         params.popParam("print", printBoard) ||
         params.popNumber("count", maxCount, invalid) ||
         params.popNumber("depth", maxDepth, invalid) ||
-        params.popNumber("gain",  minGain, invalid) ||
+        params.popNumber("fail",  maxFails, invalid) ||
         params.popNumber("skip",  skipCount, invalid) ||
         params.popNumber("time",  maxTime, invalid) ||
         params.popString("file",  fileName))
@@ -345,6 +335,12 @@ void TestCommandHandle::doWork() {
 
   std::ifstream fs(fileName);
 
+  struct FailedTest {
+    std::string bestmove;
+    std::string fen;
+    int line;
+  };
+
   int      line = 0;
   int      maxSearchDepth = 0;
   int      maxSeldepth = 0;
@@ -359,6 +355,7 @@ void TestCommandHandle::doWork() {
   uint64_t totalQnodes = 0;
   uint64_t totalTime = 0;
   MoveFinder moveFinder;
+  std::list<FailedTest> failed;
 
   std::string fen;
   fen.reserve(16384);
@@ -369,7 +366,7 @@ void TestCommandHandle::doWork() {
     line++;
 
     size_t i = fen.find_first_not_of(" \t\r\n");
-    if ((i = std::string::npos) || (fen[i] == '#')) {
+    if ((i == std::string::npos) || (fen[i] == '#')) {
       continue;
     }
 
@@ -427,7 +424,7 @@ void TestCommandHandle::doWork() {
     if (!noClear) {
       engine.clearSearchData();
     }
-    if (printBoard) {
+    if (printBoard && !engine.isDebugOn()) {
       engine.printBoard();
     }
 
@@ -445,6 +442,11 @@ void TestCommandHandle::doWork() {
     {
       Output() << "--- FAILED! line " << line << " ("
                << percent(passed, tested) << "%) " << fen;
+
+      failed.push_back(FailedTest{bestmove, fen, line});
+      if ((maxFails > 0) && (failed.size() >= size_t(maxFails))) {
+        break;
+      }
     }
     else {
       passed++;
@@ -486,8 +488,17 @@ void TestCommandHandle::doWork() {
   Output() << "--- SelDepth  " << minSeldepth << " min, "
            << static_cast<int>(average(totalSeldepth, tested)) << " avg, "
            << maxSeldepth << " max";
-
+  Output() << "--- Everaged Engine Statistics ---";
   engine.showEngineStats();
+
+  for (const auto& fail : failed) {
+    Output() << "--- Failed line " << fail.line << ' ' << fail.fen;
+    Output() << "--- Engine move: " << fail.bestmove;
+    if (printBoard || engine.isDebugOn()) {
+      engine.setPosition(fail.fen);
+      engine.printBoard();
+    }
+  }
 }
 
 } // namespace senjo
