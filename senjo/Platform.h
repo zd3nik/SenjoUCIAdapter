@@ -25,6 +25,8 @@
 
 #ifdef WIN32
 #include <Windows.h>
+#undef max
+#undef min
 #endif
 
 #include <string>
