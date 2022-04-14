@@ -35,6 +35,7 @@ namespace senjo {
 class UCIAdapter {
 public:
   UCIAdapter(ChessEngine& engine);
+  ~UCIAdapter();
 
   //--------------------------------------------------------------------------
   //! \brief Execute the given one-line command
