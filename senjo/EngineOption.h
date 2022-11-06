@@ -1,5 +1,5 @@
 //-----------------------------------------------------------------------------
-// Copyright (c) 2015-2019 Shawn Chidester <zd3nik@gmail.com>
+// Copyright (c) 2015-2022 Shawn Chidester <zd3nik@gmail.com>
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -209,6 +209,13 @@ public:
   virtual void setComboValues(const std::set<int64_t>& values);
 
 private:
+  static const std::string optButton;
+  static const std::string optCheck;
+  static const std::string optCombo;
+  static const std::string optSpin;
+  static const std::string optString;
+  static const std::string optUnknown;
+
   OptionType  optType;
   std::string optName;
   std::string optValue;

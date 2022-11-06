@@ -1,5 +1,5 @@
-Senjo
-=====
+Senjo Light
+===========
 
 Universal Chess Interface (UCI) adapter by Shawn Chidester <zd3nik@gmail.com>.
 
@@ -7,6 +7,8 @@ Just write your chess engine and let Senjo's UCIAdapter deal with the UCI protoc
 
 Description
 -----------
+
+This is the light version of the original Senjo UCI Adapter.  It's "light" because it does not contain a built-in test command. I've rarely found the test command to be particularly useful.  It's much better to use fully featured 3rd part frameworks for testing your chess engine.  It's also not best to remove all that original Senjo code that looks like chess engine code; which was confusing because this is supposed to be a UCI adapter, not a chess engine.
 
 Senjo is a UCI adapter for C++ chess engines.  It handles the interaction between your chess engine and any UCI compliant user interface.  All you have to do is implement a ChessEngine class that does the "thinking" parts, Senjo will deal with the rest.
 
@@ -16,9 +18,8 @@ The Senjo UCI adapter comes with a few extra commands that are not part of the U
     * fen
     * print
     * perft
-    * test
 
-In particular the *perft* and *test* commands are very handy for testing and tuning.  A few EPD files are included in this repository for use with these commands.  But of course you can use any EPD file(s) you prefer.
+In particular the *perft* command is handy for verifying and tuning your move generator.  A perftsuite.epd file is included in this repository for use with the perft command.  But of course you can use any EPD file(s) you prefer.
 
 How-To
 ------
@@ -96,3 +97,4 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
+

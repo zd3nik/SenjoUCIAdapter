@@ -24,6 +24,7 @@
 #define SENJO_OUTPUT_H
 
 #include "Platform.h"
+#include "TimePoint.h"
 #include <iostream>
 #include <mutex>
 

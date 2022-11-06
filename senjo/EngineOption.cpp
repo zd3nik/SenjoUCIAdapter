@@ -1,5 +1,5 @@
 //-----------------------------------------------------------------------------
-// Copyright (c) 2015-2019 Shawn Chidester <zd3nik@gmail.com>
+// Copyright (c) 2015-2022 Shawn Chidester <zd3nik@gmail.com>
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -24,28 +24,28 @@
 
 namespace senjo {
 
-static const char* OPT_BUTTON_NAME  = "button";
-static const char* OPT_CHECK_NAME   = "check";
-static const char* OPT_COMBO_NAME   = "combo";
-static const char* OPT_SPIN_NAME    = "spin";
-static const char* OPT_STRING_NAME  = "string";
-static const char* OPT_UNKNOWN_NAME = "unknown";
+const std::string EngineOption::optButton  = "button";
+const std::string EngineOption::optCheck   = "check";
+const std::string EngineOption::optCombo   = "combo";
+const std::string EngineOption::optSpin    = "spin";
+const std::string EngineOption::optString  = "string";
+const std::string EngineOption::optUnknown = "unknown";
 
 //-----------------------------------------------------------------------------
 EngineOption::OptionType EngineOption::toOptionType(const std::string& name) {
-  if (!iEqual(name, OPT_BUTTON_NAME)) {
+  if (!iEqual(name, optUnknown)) {
     return OptionType::Button;
   }
-  if (!iEqual(name, OPT_CHECK_NAME)) {
+  if (!iEqual(name, optCheck)) {
     return OptionType::Checkbox;
   }
-  if (!iEqual(name, OPT_COMBO_NAME)) {
+  if (!iEqual(name, optCombo)) {
     return OptionType::ComboBox;
   }
-  if (!iEqual(name, OPT_SPIN_NAME)) {
+  if (!iEqual(name, optSpin)) {
     return OptionType::Spin;
   }
-  if (!iEqual(name, OPT_STRING_NAME)) {
+  if (!iEqual(name, optString)) {
     return OptionType::String;
   }
   return OptionType::Unknown;
@@ -54,15 +54,15 @@ EngineOption::OptionType EngineOption::toOptionType(const std::string& name) {
 //-----------------------------------------------------------------------------
 std::string EngineOption::getTypeName(const EngineOption::OptionType type) {
   switch (type) {
-  case OptionType::Button:   return OPT_BUTTON_NAME;
-  case OptionType::Checkbox: return OPT_CHECK_NAME;
-  case OptionType::ComboBox: return OPT_COMBO_NAME;
-  case OptionType::Spin:     return OPT_SPIN_NAME;
-  case OptionType::String:   return OPT_STRING_NAME;
+  case OptionType::Button:   return optUnknown;
+  case OptionType::Checkbox: return optCheck;
+  case OptionType::ComboBox: return optCombo;
+  case OptionType::Spin:     return optSpin;
+  case OptionType::String:   return optString;
   default:
     break;
   }
-  return OPT_UNKNOWN_NAME;
+  return optUnknown;
 }
 
 //-----------------------------------------------------------------------------
@@ -93,7 +93,7 @@ int64_t EngineOption::getDefaultIntValue() const {
 //-----------------------------------------------------------------------------
 std::set<int64_t> EngineOption::getIntComboValues() const {
   std::set<int64_t> values;
-  for (auto value : comboValues) {
+  for (auto&& value : comboValues) {
     int64_t n = toNumber<int64_t>(value, -1);
     if (n >= 0) {
       values.insert(n);

@@ -1,5 +1,5 @@
 //-----------------------------------------------------------------------------
-// Copyright (c) 2015-2019 Shawn Chidester <zd3nik@gmail.com>
+// Copyright (c) 2015-2022 Shawn Chidester <zd3nik@gmail.com>
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -37,31 +37,6 @@
 #include <cstring>
 
 namespace senjo {
-
-//-----------------------------------------------------------------------------
-typedef std::chrono::system_clock::time_point TimePoint;
-
-//-----------------------------------------------------------------------------
-inline TimePoint now() {
-  return std::chrono::system_clock::now();
-}
-
-//-----------------------------------------------------------------------------
-inline TimePoint maxTime() {
-  return TimePoint::max();
-}
-
-//-----------------------------------------------------------------------------
-inline TimePoint addMsecs(const TimePoint& begin, const uint64_t msecs) {
-  return (begin + std::chrono::milliseconds(msecs));
-}
-
-//-----------------------------------------------------------------------------
-inline uint64_t getMsecs(const TimePoint& begin, const TimePoint& end = now()) {
-  auto duration = (end - begin);
-  auto msecs = std::chrono::duration_cast<std::chrono::milliseconds>(duration);
-  return uint64_t(msecs.count());
-}
 
 //-----------------------------------------------------------------------------
 template<typename T>

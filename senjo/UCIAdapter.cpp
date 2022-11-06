@@ -1,5 +1,5 @@
 //-----------------------------------------------------------------------------
-// Copyright (c) 2015-2019 Shawn Chidester <zd3nik@gmail.com>
+// Copyright (c) 2015-2022 Shawn Chidester <zd3nik@gmail.com>
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -26,31 +26,54 @@
 namespace senjo {
 
 //-----------------------------------------------------------------------------
-namespace token {
-  static const std::string Debug("debug");
-  static const std::string Exit("exit");
-  static const std::string Fen("fen");
-  static const std::string Go("go");
-  static const std::string Help("help");
-  static const std::string IsReady("isready");
-  static const std::string Moves("moves");
-  static const std::string Name("name");
-  static const std::string New("new");
-  static const std::string Opts("opts");
-  static const std::string Perft("perft");
-  static const std::string PonderHit("ponderhit");
-  static const std::string Position("position");
-  static const std::string Print("print");
-  static const std::string Quit("quit");
-  static const std::string Register("register");
-  static const std::string SetOption("setoption");
-  static const std::string StartPos("startpos");
-  static const std::string Stop("stop");
-  static const std::string Test("test");
-  static const std::string Uci("uci");
-  static const std::string UciNewGame("ucinewgame");
-  static const std::string Value("value");
-}
+struct Token {
+  static const std::string Debug;
+  static const std::string Exit;
+  static const std::string Fen;
+  static const std::string Go;
+  static const std::string Help;
+  static const std::string IsReady;
+  static const std::string Moves;
+  static const std::string Name;
+  static const std::string New;
+  static const std::string Opts;
+  static const std::string Perft;
+  static const std::string PonderHit;
+  static const std::string Position;
+  static const std::string Print;
+  static const std::string Quit;
+  static const std::string Register;
+  static const std::string SetOption;
+  static const std::string StartPos;
+  static const std::string Stop;
+  static const std::string Uci;
+  static const std::string UciNewGame;
+  static const std::string Value;
+};
+
+//-----------------------------------------------------------------------------
+const std::string Token::Debug("debug");
+const std::string Token::Exit("exit");
+const std::string Token::Fen("fen");
+const std::string Token::Go("go");
+const std::string Token::Help("help");
+const std::string Token::IsReady("isready");
+const std::string Token::Moves("moves");
+const std::string Token::Name("name");
+const std::string Token::New("new");
+const std::string Token::Opts("opts");
+const std::string Token::Perft("perft");
+const std::string Token::PonderHit("ponderhit");
+const std::string Token::Position("position");
+const std::string Token::Print("print");
+const std::string Token::Quit("quit");
+const std::string Token::Register("register");
+const std::string Token::SetOption("setoption");
+const std::string Token::StartPos("startpos");
+const std::string Token::Stop("stop");
+const std::string Token::Uci("uci");
+const std::string Token::UciNewGame("ucinewgame");
+const std::string Token::Value("value");
 
 //-----------------------------------------------------------------------------
 UCIAdapter::UCIAdapter(ChessEngine& chessEngine)
@@ -68,66 +91,62 @@ bool UCIAdapter::doCommand(const std::string& line) {
   }
 
   std::string command = params.popString();
-  if (iEqual(token::Go, command)) {
+  if (iEqual(Token::Go, command)) {
     doStopCommand();
     execute(std::unique_ptr<BackgroundCommand>(new GoCommandHandle(engine)), params);
   }
-  else if (iEqual(token::Position, command)) {
+  else if (iEqual(Token::Position, command)) {
     doStopCommand();
     doPositionCommand(line, params);
   }
-  else if (iEqual(token::Stop, command)) {
+  else if (iEqual(Token::Stop, command)) {
     doStopCommand(params);
   }
-  else if (iEqual(token::SetOption, command)) {
+  else if (iEqual(Token::SetOption, command)) {
     doSetOptionCommand(params);
   }
-  else if (iEqual(token::IsReady, command)) {
+  else if (iEqual(Token::IsReady, command)) {
     doIsReadyCommand(params);
   }
-  else if (iEqual(token::Uci, command)) {
+  else if (iEqual(Token::Uci, command)) {
     doUCICommand(params);
   }
-  else if (iEqual(token::UciNewGame, command)) {
+  else if (iEqual(Token::UciNewGame, command)) {
     doStopCommand();
     doUCINewGameCommand(params);
   }
-  else if (iEqual(token::New, command)) {
+  else if (iEqual(Token::New, command)) {
     doStopCommand();
     doNewCommand(params);
   }
-  else if (iEqual(token::Debug, command)) {
+  else if (iEqual(Token::Debug, command)) {
     doDebugCommand(params);
   }
-  else if (iEqual(token::Register, command)) {
+  else if (iEqual(Token::Register, command)) {
     doStopCommand(params);
     execute(std::unique_ptr<BackgroundCommand>(new RegisterCommandHandle(engine)), params);
   }
-  else if (iEqual(token::PonderHit, command)) {
+  else if (iEqual(Token::PonderHit, command)) {
     doPonderHitCommand(params);
   }
-  else if (iEqual(token::Fen, command)) {
+  else if (iEqual(Token::Fen, command)) {
     doFENCommand(params);
   }
-  else if (iEqual(token::Print, command)) {
+  else if (iEqual(Token::Print, command)) {
     doPrintCommand(params);
   }
-  else if (iEqual(token::Perft, command)) {
+  else if (iEqual(Token::Perft, command)) {
     doStopCommand();
     execute(std::unique_ptr<BackgroundCommand>(new PerftCommandHandle(engine)), params);
   }
-  else if (iEqual(token::Test, command)) {
-    doStopCommand();
-    execute(std::unique_ptr<BackgroundCommand>(new TestCommandHandle(engine)), params);
-  }
-  else if (iEqual(token::Opts, command)) {
+  else if (iEqual(Token::Opts, command)) {
     doOptsCommand(params);
   }
-  else if (iEqual(token::Help, command)) {
+  else if (iEqual(Token::Help, command)) {
     doHelpCommand(params);
   }
-  else if (iEqual(token::Exit, command) ||
-           iEqual(token::Quit, command))
+  else if (iEqual(Token::Exit, command) ||
+           iEqual(Token::Quit, command))
   {
     if (doQuitCommand(params)) {
       return false;
@@ -152,23 +171,22 @@ void UCIAdapter::doHelpCommand(Parameters& /*params*/) {
   Output() << engine.getEngineName() << ' ' << engine.getEngineVersion()
            << " by " << engine.getAuthorName();
   Output() << "UCI commands:";
-  Output() << "  " << token::Debug;
-  Output() << "  " << token::Go;
-  Output() << "  " << token::IsReady;
-  Output() << "  " << token::Position;
-  Output() << "  " << token::Quit;
-  Output() << "  " << token::SetOption;
-  Output() << "  " << token::Stop;
-  Output() << "  " << token::Uci;
-  Output() << "  " << token::UciNewGame;
+  Output() << "  " << Token::Debug;
+  Output() << "  " << Token::Go;
+  Output() << "  " << Token::IsReady;
+  Output() << "  " << Token::Position;
+  Output() << "  " << Token::Quit;
+  Output() << "  " << Token::SetOption;
+  Output() << "  " << Token::Stop;
+  Output() << "  " << Token::Uci;
+  Output() << "  " << Token::UciNewGame;
   Output() << "Additional commands:";
-  Output() << "  " << token::Exit;
-  Output() << "  " << token::Fen;
-  Output() << "  " << token::Help;
-  Output() << "  " << token::New;
-  Output() << "  " << token::Perft;
-  Output() << "  " << token::Print;
-  Output() << "  " << token::Test;
+  Output() << "  " << Token::Exit;
+  Output() << "  " << Token::Fen;
+  Output() << "  " << Token::Help;
+  Output() << "  " << Token::New;
+  Output() << "  " << Token::Perft;
+  Output() << "  " << Token::Print;
   Output() << "Also try '<command> help' for help on a specific command";
   Output() << "Or enter move(s) in coordinate notation, e.g. d2d4 g8f6";
 }
@@ -183,7 +201,7 @@ void UCIAdapter::execute(std::unique_ptr<BackgroundCommand> command,
     return;
   }
 
-  if (params.firstParamIs(token::Help)) {
+  if (params.firstParamIs(Token::Help)) {
     Output() << "usage: " << command->usage();
     Output() << command->description();
     return;
@@ -204,8 +222,8 @@ void UCIAdapter::execute(std::unique_ptr<BackgroundCommand> command,
 //! Print the FEN string for the current board position
 //-----------------------------------------------------------------------------
 void UCIAdapter::doFENCommand(Parameters& params) {
-  if (params.firstParamIs(token::Help)) {
-    Output() << "usage: " << token::Fen;
+  if (params.firstParamIs(Token::Help)) {
+    Output() << "usage: " << Token::Fen;
     Output() << "Output FEN string of the current position.";
     return;
   }
@@ -227,8 +245,8 @@ void UCIAdapter::doFENCommand(Parameters& params) {
 //! Output an ascii representation of the current board position
 //-----------------------------------------------------------------------------
 void UCIAdapter::doPrintCommand(Parameters& params) {
-  if (params.firstParamIs(token::Help)) {
-    Output() << "usage: " << token::Print;
+  if (params.firstParamIs(Token::Help)) {
+    Output() << "usage: " << Token::Print;
     Output() << "Output text representation of the current position.";
     return;
   }
@@ -245,12 +263,12 @@ void UCIAdapter::doPrintCommand(Parameters& params) {
 //! Clear search data, set position, and apply moves (if any given).
 //-----------------------------------------------------------------------------
 void UCIAdapter::doNewCommand(Parameters& params) {
-  if (params.firstParamIs(token::Help)) {
-    Output() << "usage: " << token::New << " [" << token::StartPos << "|"
-             << token::Fen << " <fen_string>] [" << token::Moves
+  if (params.firstParamIs(Token::Help)) {
+    Output() << "usage: " << Token::New << " [" << Token::StartPos << "|"
+             << Token::Fen << " <fen_string>] [" << Token::Moves
              << "] <movelist>";
     Output() << "Clear search data, set position, and apply <movelist>.";
-    Output() << "If no position is specified " << token::StartPos
+    Output() << "If no position is specified " << Token::StartPos
              << " is assumed.";
     return;
   }
@@ -258,8 +276,8 @@ void UCIAdapter::doNewCommand(Parameters& params) {
   doUCINewGameCommand();
 
   if (params.empty() ||
-      params.popParam(token::StartPos) ||
-      params.popParam(token::Moves))
+      params.popParam(Token::StartPos) ||
+      params.popParam(Token::Moves))
   {
     if (!engine.setPosition(ChessEngine::STARTPOS)) {
       return;
@@ -267,7 +285,7 @@ void UCIAdapter::doNewCommand(Parameters& params) {
   }
   else {
     // consume "fen" token if present
-    params.popParam(token::Fen);
+    params.popParam(Token::Fen);
     std::string remain;
     if (!engine.setPosition(params.toString(), &remain)) {
       return;
@@ -276,7 +294,7 @@ void UCIAdapter::doNewCommand(Parameters& params) {
   }
 
   // consume "moves" token if present
-  params.popParam(token::Moves);
+  params.popParam(Token::Moves);
 
   // apply moves (if any)
   while (params.size() && isMove(params.front())) {
@@ -297,7 +315,7 @@ void UCIAdapter::doNewCommand(Parameters& params) {
 //! Output current engine option values
 //-----------------------------------------------------------------------------
 void UCIAdapter::doOptsCommand(Parameters& /*params*/) {
-  for (auto opt : engine.getOptions()) {
+  for (auto&& opt : engine.getOptions()) {
     switch (opt.getType()) {
     case EngineOption::Checkbox:
     case EngineOption::Spin:
@@ -309,7 +327,7 @@ void UCIAdapter::doOptsCommand(Parameters& /*params*/) {
       const std::set<std::string>& values = opt.getComboValues();
       Output out;
       out << opt.getTypeName() << ':' << opt.getName();
-      for (auto value : values) {
+      for (auto&& value : values) {
         out << ' ' << value;
       }
       break;
@@ -354,8 +372,8 @@ void UCIAdapter::doMoveCommand(Parameters& params) {
 //! \return true if quit requested, otherwise false
 //-----------------------------------------------------------------------------
 bool UCIAdapter::doQuitCommand(Parameters& params) {
-  if (params.firstParamIs(token::Help)) {
-    Output() << "usage: " << token::Quit;
+  if (params.firstParamIs(Token::Help)) {
+    Output() << "usage: " << Token::Quit;
     Output() << "Stop engine and terminate program.";
     return false;
   }
@@ -380,8 +398,8 @@ bool UCIAdapter::doQuitCommand(Parameters& params) {
 //!   command can be sent any time, also when the engine is thinking.
 //-----------------------------------------------------------------------------
 void UCIAdapter::doDebugCommand(Parameters& params) {
-  if (params.firstParamIs(token::Help)) {
-    Output() << "usage: " << token::Debug;
+  if (params.firstParamIs(Token::Help)) {
+    Output() << "usage: " << Token::Debug;
     Output() << "Toggle debug mode.";
     return;
   }
@@ -405,8 +423,8 @@ void UCIAdapter::doDebugCommand(Parameters& params) {
 //!   with "readyok" without stopping the search.
 //-----------------------------------------------------------------------------
 void UCIAdapter::doIsReadyCommand(Parameters& params) {
-  if (params.firstParamIs(token::Help)) {
-    Output() << "usage: " << token::IsReady;
+  if (params.firstParamIs(Token::Help)) {
+    Output() << "usage: " << Token::IsReady;
     Output() << "Output readyok when engine is ready to receive input.";
     return;
   }
@@ -430,8 +448,8 @@ void UCIAdapter::doIsReadyCommand(Parameters& params) {
 //!   possibly the "ponder" token when finishing the search.
 //-----------------------------------------------------------------------------
 void UCIAdapter::doStopCommand(Parameters params) {
-  if (params.firstParamIs(token::Help)) {
-    Output() << "usage: " << token::Stop;
+  if (params.firstParamIs(Token::Help)) {
+    Output() << "usage: " << Token::Stop;
     Output() << "Stop engine if it is calculating.";
     return;
   }
@@ -452,8 +470,8 @@ void UCIAdapter::doStopCommand(Parameters params) {
 //!   GUI.
 //-----------------------------------------------------------------------------
 void UCIAdapter::doUCICommand(Parameters& params) {
-  if (params.firstParamIs(token::Help)) {
-    Output() << "usage: " << token::Uci;
+  if (params.firstParamIs(Token::Help)) {
+    Output() << "usage: " << Token::Uci;
     Output() << "Output engine info and options followed by uciok.";
     return;
   }
@@ -476,7 +494,7 @@ void UCIAdapter::doUCICommand(Parameters& params) {
     Output(Output::NoPrefix) << "id country " << country;
   }
 
-  for (auto opt : engine.getOptions()) {
+  for (auto&& opt : engine.getOptions()) {
     Output out(Output::NoPrefix);
     out << "option name " << opt.getName() << " type " << opt.getTypeName();
     if (opt.getDefaultValue().size()) {
@@ -488,7 +506,7 @@ void UCIAdapter::doUCICommand(Parameters& params) {
     if (opt.getMaxValue() < INT64_MAX) {
       out << " max " << opt.getMaxValue();
     }
-    for (auto val : opt.getComboValues()) {
+    for (auto&& val : opt.getComboValues()) {
       out << " var " << val;
     }
   }
@@ -526,8 +544,8 @@ void UCIAdapter::doUCICommand(Parameters& params) {
 //!   operation.
 //-----------------------------------------------------------------------------
 void UCIAdapter::doUCINewGameCommand(Parameters params) {
-  if (params.firstParamIs(token::Help)) {
-    Output() << "usage: " << token::UciNewGame;
+  if (params.firstParamIs(Token::Help)) {
+    Output() << "usage: " << Token::UciNewGame;
     Output() << "Clear all search data.";
     return;
   }
@@ -558,9 +576,9 @@ void UCIAdapter::doUCINewGameCommand(Parameters params) {
 void UCIAdapter::doPositionCommand(const std::string& fenstring,
                                    Parameters& params)
 {
-  if (params.empty() || params.firstParamIs(token::Help)) {
-    Output() << "usage: " << token::Position << " {" << token::StartPos << "|"
-             << token::Fen << " <fen_string>} [<movelist>]";
+  if (params.empty() || params.firstParamIs(Token::Help)) {
+    Output() << "usage: " << Token::Position << " {" << Token::StartPos << "|"
+             << Token::Fen << " <fen_string>} [<movelist>]";
     Output() << "Set a new position and apply <movelist> (if given).";
     return;
   }
@@ -582,14 +600,14 @@ void UCIAdapter::doPositionCommand(const std::string& fenstring,
     params.parse(fenstring.substr(lastPosition.size() + 1));
   }
   else {
-    if (params.firstParamIs(token::StartPos)) {
+    if (params.firstParamIs(Token::StartPos)) {
       if (!engine.setPosition(ChessEngine::STARTPOS)) {
         return;
       }
     }
     else {
       // consume "fen" token if present
-      params.popParam(token::Fen);
+      params.popParam(Token::Fen);
       std::string remain;
       if (!engine.setPosition(params.toString(), &remain)) {
         return;
@@ -602,7 +620,7 @@ void UCIAdapter::doPositionCommand(const std::string& fenstring,
   lastPosition = fenstring;
 
   // consume "moves" token if present
-  params.popParam(token::Moves);
+  params.popParam(Token::Moves);
 
   // apply moves (if any)
   while (params.size() && isMove(params.front())) {
@@ -637,9 +655,9 @@ void UCIAdapter::doPositionCommand(const std::string& fenstring,
 //!      "setoption name NalimovPath value c:\chess\tb\4;c:\chess\tb\5\n"
 //-----------------------------------------------------------------------------
 void UCIAdapter::doSetOptionCommand(Parameters& params) {
-  if (params.empty() || params.firstParamIs(token::Help)) {
-    Output() << "usage: " << token::SetOption << ' ' << token::Name
-             << " <option_name> [" << token::Value << " <option_value>]";
+  if (params.empty() || params.firstParamIs(Token::Help)) {
+    Output() << "usage: " << Token::SetOption << ' ' << Token::Name
+             << " <option_name> [" << Token::Value << " <option_value>]";
     Output() << "Set the value of the specified option name.";
     Output() << "If no value specified the option's default value is used,";
     Output() << "or the option will be triggered if it's a button option.";
@@ -649,18 +667,18 @@ void UCIAdapter::doSetOptionCommand(Parameters& params) {
   std::string name;
   std::string value;
 
-  if (!params.firstParamIs(token::Name)) {
+  if (!params.firstParamIs(Token::Name)) {
     Output() << "Missing name token";
     return;
   }
 
-  if (!params.popString(token::Name, name, token::Value)) {
+  if (!params.popString(Token::Name, name, Token::Value)) {
     Output() << "Missing name value";
     return;
   }
 
-  if (params.firstParamIs(token::Value)) {
-    if (!params.popString(token::Value, value)) {
+  if (params.firstParamIs(Token::Value)) {
+    if (!params.popString(Token::Value, value)) {
       Output() << "Missing value";
       return;
     }

@@ -1,5 +1,5 @@
 //-----------------------------------------------------------------------------
-// Copyright (c) 2015-2019 Shawn Chidester <zd3nik@gmail.com>
+// Copyright (c) 2015-2022 Shawn Chidester <zd3nik@gmail.com>
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -28,7 +28,7 @@ namespace senjo {
 // static variables
 //-----------------------------------------------------------------------------
 std::mutex Output::_mutex;
-TimePoint  Output::_lastOutput = now();
+TimePoint  Output::_lastOutput;
 
 //-----------------------------------------------------------------------------
 TimePoint Output::lastOutput() {
@@ -51,7 +51,7 @@ Output::Output(const OutputPrefix prefix) {
 Output::~Output() {
   std::cout << '\n';
   std::cout.flush();
-  _lastOutput = now();
+  _lastOutput = TimePoint();
   _mutex.unlock();
 }
 

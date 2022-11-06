@@ -1,5 +1,5 @@
 //-----------------------------------------------------------------------------
-// Copyright (c) 2019 Shawn Chidester <zd3nik@gmail.com>
+// Copyright (c) 2019-2022 Shawn Chidester <zd3nik@gmail.com>
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -42,7 +42,7 @@ inline std::ostream& operator<<(std::ostream& os, const SearchStats& stats) {
      << " seldepth " << stats.seldepth
      << " nodes " << stats.nodes
      << " time " << stats.msecs
-     << " nps " << static_cast<uint64_t>(rate(stats.nodes, stats.msecs));
+     << " nps " << rate(stats.nodes, stats.msecs);
   return os;
 }
 
