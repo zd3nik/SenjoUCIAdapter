@@ -39,9 +39,10 @@ To create a chess engine named "Trout" using the Senjo UCI adapter do the follow
     2. Wrap TroutEngine in a Senjo UCIAdapter and feed it one line of input from stdin at a time.
 
         // TroutMain.cpp
-        #include "TroutEngine.h"
         #include "senjo/UCIAdapter.h"
         #include "senjo/Output.h"
+        #include "TroutEngine.h"
+        #include <iostream>
 
         int main(int /*argc*/, char** /*argv*/) {
             try {
@@ -51,7 +52,7 @@ To create a chess engine named "Trout" using the Senjo UCI adapter do the follow
                 std::string line;
                 line.reserve(16384);
 
-                while (std::getline(std::coin, line)) {
+                while (std::getline(std::cin, line)) {
                     if (!adapter.doCommand(line)) {
                         break;
                     }
