@@ -57,6 +57,13 @@ UCIAdapter::UCIAdapter(ChessEngine& chessEngine)
   : engine(chessEngine) {}
 
 //-----------------------------------------------------------------------------
+UCIAdapter::~UCIAdapter() {
+  if (lastCommand) {
+    lastCommand->waitForFinish();
+  }
+}
+
+//-----------------------------------------------------------------------------
 bool UCIAdapter::doCommand(const std::string& line) {
   Parameters params(line);
   if (params.empty()) {
